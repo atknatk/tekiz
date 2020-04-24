@@ -1,0 +1,88 @@
+<div class="kt-portlet"
+    [ngClass]="{ 'kt-portlet--body-progress kt-portlet--body-progress-overlay' : viewLoading }">
+    <div class="kt-portlet__head kt-portlet__head__custom">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">{{getTitle()}}</h3>
+        </div>
+    </div>
+    <form class="kt-form" [formGroup]="platformKunyeForm">
+        <div class="kt-portlet__body">
+
+            <div class="kt-portlet__body-progress">
+                <mat-spinner [diameter]="20"></mat-spinner>
+            </div>
+
+            <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
+                Hata! Zorunlu alanları giriniz ve sonra tekrar deneyiniz.
+            </kt-alert>
+
+            <div class="form-group kt-form__group row">
+                <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input matInput placeholder="Platform künye adını giriniz" formControlName="name" />
+                        <mat-error>
+                            <strong>Ad</strong> zorunlu alandır
+                        </mat-error>
+                        <mat-hint align="start">Lütfen <strong>Platform Künye Ad</strong>ını giriniz
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <mat-select placeholder="Sahibi" formControlName="owner">
+                            <mat-option value="T.C Ticaret Bakanlığı">T.C Ticaret Bakanlığı</mat-option>
+                            <mat-option value="T.C Adalet Bakanlığı">T.C Adalet Bakanlığı</mat-option>
+                            <mat-option value="T.C Aile, Çalışma ve Sosyal Hizmetler Bakanlığı">T.C Aile, Çalışma ve Sosyal Hizmetler Bakanlığı</mat-option>
+                            <mat-option value="T.C Çevre ve Şehircilik Bakanlığı">T.C Çevre ve Şehircilik Bakanlığı</mat-option>
+                            <mat-option value="T.C Dışişleri Bakanlığı">T.C Dışişleri Bakanlığı</mat-option>
+                            <mat-option value="T.C Enerji ve Tabii Kaynaklar Bakanlığı">T.C Enerji ve Tabii Kaynaklar Bakanlığı</mat-option>
+                            <mat-option value="T.C Gençlik ve Spor Bakanlığı">T.C Gençlik ve Spor Bakanlığı</mat-option>
+                            <mat-option value="T.C Hazine ve Maliye Bakanlığı">T.C Hazine ve Maliye Bakanlığı</mat-option>
+							<mat-option value="T.C İçişleri Bakanlığı">T.C İçişleri Bakanlığı</mat-option>
+							<mat-option value="T.C Kültür ve Turizm Bakanlığı">T.C Kültür ve Turizm Bakanlığı</mat-option>
+							<mat-option value="T.C Millî Eğitim Bakanlığı">T.C Millî Eğitim Bakanlığı</mat-option>
+							<mat-option value="T.C Millî Savunma Bakanlığı">T.C Millî Savunma Bakanlığı</mat-option>
+							<mat-option value="T.C Sağlık Bakanlığı">T.C Sağlık Bakanlığı</mat-option>
+							<mat-option value="T.C Sanayi ve Teknoloji Bakanlığı">T.C Sanayi ve Teknoloji Bakanlığı</mat-option>
+							<mat-option value="T.C Tarım ve Orman Bakanlığı">T.C Tarım ve Orman Bakanlığı</mat-option>
+							<mat-option value="T.C Ulaştırma ve Altyapı Bakanlığı">T.C Ulaştırma ve Altyapı Bakanlığı</mat-option>
+							
+						</mat-select>
+                        <mat-hint align="start">
+                            <strong>Platform Sahibi</strong>
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="kt-separator kt-separator--dashed"></div>
+        
+            <div class="form-group kt-form__group row">
+                <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <textarea matInput placeholder="Platform künye adını giriniz" formControlName="summary"></textarea>
+                        <mat-error>
+                            <strong>Ad</strong>zorunlu alandır
+                        </mat-error>
+                        <mat-hint align="start">Please enter
+                            <strong>First Name</strong>
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="kt-portlet__foot kt-portlet__no-border kt-portlet__foot--fit">
+            <div class="kt-form__actions kt-form__actions--solid">
+                <div class="row text-right">
+                    <div class="col-lg-12">
+                        <button type="button" mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial matTooltip="Cancel changes">
+                            İptal
+                        </button>&nbsp;
+                        <button type="button" mat-raised-button color="primary" (click)="onSubmit()" [disabled]="viewLoading" matTooltip="Save changes">
+                            Kaydet
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
