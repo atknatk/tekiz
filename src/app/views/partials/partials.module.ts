@@ -73,6 +73,8 @@ import {WidgetModule} from './content/widgets/widget.module';
 // SVG inline
 import {InlineSVGModule} from 'ng-inline-svg';
 import {CartComponent} from './layout/topbar/cart/cart.component';
+import { MinistriesComponent } from './content/general/ministries/ministries.component';
+import { CountriesComponent } from './content/general/countries/countries.component';
 
 @NgModule({
 	declarations: [
@@ -109,6 +111,9 @@ import {CartComponent} from './layout/topbar/cart/cart.component';
 		CartComponent,
 
 		ErrorComponent,
+
+		MinistriesComponent,
+		CountriesComponent
 	],
 	exports: [
 		WidgetModule,
@@ -147,6 +152,9 @@ import {CartComponent} from './layout/topbar/cart/cart.component';
 		CartComponent,
 
 		ErrorComponent,
+
+		MinistriesComponent,
+		CountriesComponent
 	],
 	imports: [
 		CommonModule,

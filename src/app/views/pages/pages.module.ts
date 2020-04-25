@@ -11,6 +11,7 @@ import { MailModule } from './apps/mail/mail.module';
 import { ECommerceModule } from './apps/e-commerce/e-commerce.module';
 import { UserManagementModule } from './user-management/user-management.module';
 import { MyPageComponent } from './my-page/my-page.component';
+import { TekizModule } from './apps/tekiz/tekiz.module';
 
 @NgModule({
 	declarations: [MyPageComponent],
@@ -23,6 +24,7 @@ import { MyPageComponent } from './my-page/my-page.component';
 		PartialsModule,
 		MailModule,
 		ECommerceModule,
+		TekizModule,
 		UserManagementModule,
 	],
 	providers: []

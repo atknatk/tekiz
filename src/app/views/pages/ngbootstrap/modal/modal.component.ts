@@ -26,7 +26,7 @@ const modalWithDefaultOptions = {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary">Değişiklikleri Kaydet</button>
       </div>
     </ng-template>
     <button class="btn btn-primary" (click)="open(content)">Launch demo modal</button>
@@ -140,7 +140,7 @@ const modalWithCustomClass = {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary">Değişiklikleri Kaydet</button>
        </div>
     </ng-template>
     <button class="btn btn-focus" (click)="open(content)">Launch demo modal</button>
@@ -210,7 +210,7 @@ const scrollableFixedContent = {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary">Değişiklikleri Kaydet</button>
       </div>
     </ng-template>
     <button class="btn btn-metal" (click)="open(content)">Launch demo modal</button>
@@ -286,7 +286,7 @@ const scrollingLongContent = {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary">Değişiklikleri Kaydet</button>
       </div>
     </ng-template>
     <button class="btn btn-brand" (click)="open(content5)">Launch demo modal</button>
@@ -334,7 +334,7 @@ const largeModal = {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary">Değişiklikleri Kaydet</button>
       </div>
     </ng-template>
     <button class="btn btn-success" (click)="openLarge(content6)">Launch demo modal</button>
@@ -382,7 +382,7 @@ const smallModal = {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary">Değişiklikleri Kaydet</button>
       </div>
     </ng-template>
     <button class="btn btn-success" (click)="openSmall(content7)">Launch demo modal</button>
@@ -430,7 +430,7 @@ const verticallyCentered = {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary">Değişiklikleri Kaydet</button>
       </div>
     </ng-template>
     <button class="btn btn-danger" (click)="openCentred(content7)">Launch demo modal</button>

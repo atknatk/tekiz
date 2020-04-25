@@ -62,8 +62,8 @@ export const locale = {
 		},
 		ECOMMERCE: {
 			COMMON: {
-				SELECTED_RECORDS_COUNT: 'Selected records count: ',
-				ALL: 'All',
+				SELECTED_RECORDS_COUNT: 'Seçilen Kayıt Sayısı: ',
+				ALL: 'Hepsi',
 				SUSPENDED: 'Suspended',
 				ACTIVE: 'Active',
 				FILTER: 'Filter',

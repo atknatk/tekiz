@@ -28,12 +28,8 @@ const routes: Routes = [
 				loadChildren: () => import('app/views/pages/apps/e-commerce/e-commerce.module').then(m => m.ECommerceModule),
 			},
 			{
-				path: 'platform',
-				loadChildren: () => import('app/views/pages/apps/platform/platform.module').then(m => m.PlatformModule),
-			},
-			{
-				path: 'eylem-plani',
-				loadChildren: () => import('app/views/pages/apps/eylem-plani/eylem-plani.module').then(m => m.EylemPlaniModule),
+				path: 'tekiz',
+				loadChildren: () => import('app/views/pages/apps/tekiz/tekiz.module').then(m => m.TekizModule),
 			},
 			{
 				path: 'ngbootstrap',

@@ -689,21 +689,12 @@ export class MenuConfig {
 					permission: 'accessToECommerceModule',
 					submenu: [
 						{
-							title: 'Kunye',
-							page: '/platform/kunye'
-						}
-					]
-				},
-				{
-					title: 'Eylem Planı',
-					bullet: 'dot',
-					icon: 'flaticon2-list-2',
-					root: true,
-					permission: 'accessToECommerceModule',
-					submenu: [
+							title: 'Platform Künye',
+							page: '/tekiz/platform-kunye'
+						},
 						{
-							title: 'Kunye',
-							page: '/eylem-plani/kunye'
+							title: 'Eylem Planı Kunye',
+							page: '/tekiz/eylem-plani-kunye'
 						}
 					]
 				},

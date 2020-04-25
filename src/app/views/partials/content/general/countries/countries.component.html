@@ -1,0 +1,14 @@
+<mat-form-field class="mat-form-field-fluid">
+	<input [formControl]="inputControl" matInput placeholder="Ülke Seçiniz" [matAutocomplete]="manuf">
+	<mat-autocomplete (selectionChange)="selectionChanged($event)" #manuf="matAutocomplete">
+		<mat-option *ngFor="let country of filtered | async" [value]="country">
+			{{ country }}
+		</mat-option>
+	</mat-autocomplete>
+	<mat-error>
+		<strong>Ülke</strong> zorunlu alandır
+	</mat-error>
+	<mat-hint align="start">Lütfen
+		<strong>Ülke</strong> seçiniz
+	</mat-hint>
+</mat-form-field>

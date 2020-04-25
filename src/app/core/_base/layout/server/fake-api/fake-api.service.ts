@@ -9,10 +9,9 @@ import { AuthDataContext } from "../../../../auth";
 // ECommerce
 import { ECommerceDataContext } from "../../../../e-commerce";
 // Platform
-import { PlatformDataContext } from "../../../../platform";
+import { TekizDataContext } from "../../../../tekiz";
 // Models
 import { CarsDb } from "./fake-db/cars";
-import { EylemPlaniDataContext } from "../../../../eylem-plani";
 
 @Injectable()
 export class FakeApiService implements InMemoryDbService {
@@ -46,9 +45,9 @@ export class FakeApiService implements InMemoryDbService {
 			// data-table
 			cars: CarsDb.cars,
 
-			platformKunyes: PlatformDataContext.platformKunyes,
-			countries: PlatformDataContext.countries,
-			eylemPlaniKunyes: EylemPlaniDataContext.eylemPlaniKunyes,
+			platformKunyes: TekizDataContext.platformKunyes,
+		//	countries: PlatformDataContext.countries,
+			eylemPlaniKunyes: TekizDataContext.eylemPlaniKunyes,
 		};
 		return db;
 	}
