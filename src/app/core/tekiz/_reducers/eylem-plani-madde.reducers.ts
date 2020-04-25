@@ -2,74 +2,74 @@
 import { createFeatureSelector } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter, Update } from '@ngrx/entity';
 // Actions
-import { EylemPlaniKunyeActions, EylemPlaniKunyeActionTypes } from '../_actions/eylem-plani-kunye.actions';
+import { EylemPlaniMaddeActions, EylemPlaniMaddeActionTypes } from '../_actions/eylem-plani-madde.actions';
 // Models
-import { EylemPlaniKunyeModel } from '../_models/eylem-plani-kunye.model';
+import { EylemPlaniMaddeModel } from '../_models/eylem-plani-madde.model';
 import { QueryParamsModel } from '../../_base/crud';
 
-export interface EylemPlaniKunyesState extends EntityState<EylemPlaniKunyeModel> {
+export interface EylemPlaniMaddesState extends EntityState<EylemPlaniMaddeModel> {
     listLoading: boolean;
     actionsloading: boolean;
     totalCount: number;
-    lastCreatedEylemPlaniKunyeId: number;
+    lastCreatedEylemPlaniMaddeId: number;
     lastQuery: QueryParamsModel;
     showInitWaitingMessage: boolean;
 }
 
-export const adapter: EntityAdapter<EylemPlaniKunyeModel> = createEntityAdapter<EylemPlaniKunyeModel>();
+export const adapter: EntityAdapter<EylemPlaniMaddeModel> = createEntityAdapter<EylemPlaniMaddeModel>();
 
-export const initialEylemPlaniKunyesState: EylemPlaniKunyesState = adapter.getInitialState({
-    eylemPlaniKunyeForEdit: null,
+export const initialEylemPlaniMaddesState: EylemPlaniMaddesState = adapter.getInitialState({
+    eylemPlaniMaddeForEdit: null,
     listLoading: false,
     actionsloading: false,
     totalCount: 0,
-    lastCreatedEylemPlaniKunyeId: undefined,
+    lastCreatedEylemPlaniMaddeId: undefined,
     lastQuery: new QueryParamsModel({}),
     showInitWaitingMessage: true
 });
 
-export function eylemPlaniKunyesReducer(state = initialEylemPlaniKunyesState, action: EylemPlaniKunyeActions): EylemPlaniKunyesState {
+export function eylemPlaniMaddesReducer(state = initialEylemPlaniMaddesState, action: EylemPlaniMaddeActions): EylemPlaniMaddesState {
     switch  (action.type) {
-        case EylemPlaniKunyeActionTypes.EylemPlaniKunyesPageToggleLoading: {
+        case EylemPlaniMaddeActionTypes.EylemPlaniMaddesPageToggleLoading: {
             return {
-                ...state, listLoading: action.payload.isLoading, lastCreatedEylemPlaniKunyeId: undefined
+                ...state, listLoading: action.payload.isLoading, lastCreatedEylemPlaniMaddeId: undefined
             };
         }
-        case EylemPlaniKunyeActionTypes.EylemPlaniKunyeActionToggleLoading: {
+        case EylemPlaniMaddeActionTypes.EylemPlaniMaddeActionToggleLoading: {
             return {
                 ...state, actionsloading: action.payload.isLoading
             };
         }
-        case EylemPlaniKunyeActionTypes.EylemPlaniKunyeOnServerCreated: return {
+        case EylemPlaniMaddeActionTypes.EylemPlaniMaddeOnServerCreated: return {
             ...state
         };
-        case EylemPlaniKunyeActionTypes.EylemPlaniKunyeCreated: return adapter.addOne(action.payload.eylemPlaniKunye, {
-            ...state, lastCreatedEylemPlaniKunyeId: action.payload.eylemPlaniKunye.id
+        case EylemPlaniMaddeActionTypes.EylemPlaniMaddeCreated: return adapter.addOne(action.payload.eylemPlaniMadde, {
+            ...state, lastCreatedEylemPlaniMaddeId: action.payload.eylemPlaniMadde.id
         });
-        case EylemPlaniKunyeActionTypes.EylemPlaniKunyeUpdated: return adapter.updateOne(action.payload.partialEylemPlaniKunye, state);
-        case EylemPlaniKunyeActionTypes.EylemPlaniKunyesStatusUpdated: {
-            const _partialEylemPlaniKunyes: Update<EylemPlaniKunyeModel>[] = [];
+        case EylemPlaniMaddeActionTypes.EylemPlaniMaddeUpdated: return adapter.updateOne(action.payload.partialEylemPlaniMadde, state);
+        case EylemPlaniMaddeActionTypes.EylemPlaniMaddesStatusUpdated: {
+            const _partialEylemPlaniMaddes: Update<EylemPlaniMaddeModel>[] = [];
             // tslint:disable-next-line:prefer-const
-            for (let i = 0; i < action.payload.eylemPlaniKunyes.length; i++) {
-                _partialEylemPlaniKunyes.push({
-				    id: action.payload.eylemPlaniKunyes[i].id,
+            for (let i = 0; i < action.payload.eylemPlaniMaddes.length; i++) {
+                _partialEylemPlaniMaddes.push({
+				    id: action.payload.eylemPlaniMaddes[i].id,
 				    changes: {
                      //   status: action.payload.status
                     }
 			    });
             }
-            return adapter.updateMany(_partialEylemPlaniKunyes, state);
+            return adapter.updateMany(_partialEylemPlaniMaddes, state);
         }
-        case EylemPlaniKunyeActionTypes.OneEylemPlaniKunyeDeleted: return adapter.removeOne(action.payload.id, state);
-        case EylemPlaniKunyeActionTypes.ManyEylemPlaniKunyesDeleted: return adapter.removeMany(action.payload.ids, state);
-        case EylemPlaniKunyeActionTypes.EylemPlaniKunyesPageCancelled: {
+        case EylemPlaniMaddeActionTypes.OneEylemPlaniMaddeDeleted: return adapter.removeOne(action.payload.id, state);
+        case EylemPlaniMaddeActionTypes.ManyEylemPlaniMaddesDeleted: return adapter.removeMany(action.payload.ids, state);
+        case EylemPlaniMaddeActionTypes.EylemPlaniMaddesPageCancelled: {
             return {
                 ...state, listLoading: false, lastQuery: new QueryParamsModel({})
             };
         }
-        case EylemPlaniKunyeActionTypes.EylemPlaniKunyesPageLoaded: {
-            return adapter.addMany(action.payload.eylemPlaniKunyes, {
-                ...initialEylemPlaniKunyesState,
+        case EylemPlaniMaddeActionTypes.EylemPlaniMaddesPageLoaded: {
+            return adapter.addMany(action.payload.eylemPlaniMaddes, {
+                ...initialEylemPlaniMaddesState,
                 totalCount: action.payload.totalCount,
                 listLoading: false,
                 lastQuery: action.payload.page,
@@ -80,7 +80,7 @@ export function eylemPlaniKunyesReducer(state = initialEylemPlaniKunyesState, ac
     }
 }
 
-export const getEylemPlaniKunyeState = createFeatureSelector<EylemPlaniKunyeModel>('eylemPlaniKunyes');
+export const getEylemPlaniMaddeState = createFeatureSelector<EylemPlaniMaddeModel>('eylemPlaniMaddes');
 
 export const {
     selectAll,

@@ -5,45 +5,45 @@ import { each } from 'lodash';
 // CRUD
 import { QueryResultsModel, HttpExtenstionsModel } from '../../_base/crud';
 // State
-import { EylemPlaniKunyesState } from '../_reducers/eylem-plani-kunye.reducers';
-import { EylemPlaniKunyeModel } from '../_models/eylem-plani-kunye.model';
+import { EylemPlaniMaddesState } from '../_reducers/eylem-plani-madde.reducers';
+import { EylemPlaniMaddeModel } from '../_models/eylem-plani-madde.model';
 
-export const selectEylemPlaniKunyesState = createFeatureSelector<EylemPlaniKunyesState>('eylemPlaniKunyes');
+export const selectEylemPlaniMaddesState = createFeatureSelector<EylemPlaniMaddesState>('eylemPlaniMaddes');
 
-export const selectEylemPlaniKunyeById = (eylemPlaniKunyeId: number) => createSelector(
-    selectEylemPlaniKunyesState,
-    eylemPlaniKunyesState => eylemPlaniKunyesState.entities[eylemPlaniKunyeId]
+export const selectEylemPlaniMaddeById = (eylemPlaniMaddeId: number) => createSelector(
+    selectEylemPlaniMaddesState,
+    eylemPlaniMaddesState => eylemPlaniMaddesState.entities[eylemPlaniMaddeId]
 );
 
-export const selectEylemPlaniKunyesPageLoading = createSelector(
-    selectEylemPlaniKunyesState,
-    eylemPlaniKunyesState => eylemPlaniKunyesState.listLoading
+export const selectEylemPlaniMaddesPageLoading = createSelector(
+    selectEylemPlaniMaddesState,
+    eylemPlaniMaddesState => eylemPlaniMaddesState.listLoading
 );
 
-export const selectEylemPlaniKunyesActionLoading = createSelector(
-    selectEylemPlaniKunyesState,
-    eylemPlaniKunyesState => eylemPlaniKunyesState.actionsloading
+export const selectEylemPlaniMaddesActionLoading = createSelector(
+    selectEylemPlaniMaddesState,
+    eylemPlaniMaddesState => eylemPlaniMaddesState.actionsloading
 );
 
-export const selectLastCreatedEylemPlaniKunyeId = createSelector(
-    selectEylemPlaniKunyesState,
-    eylemPlaniKunyesState => eylemPlaniKunyesState.lastCreatedEylemPlaniKunyeId
+export const selectLastCreatedEylemPlaniMaddeId = createSelector(
+    selectEylemPlaniMaddesState,
+    eylemPlaniMaddesState => eylemPlaniMaddesState.lastCreatedEylemPlaniMaddeId
 );
 
-export const selectEylemPlaniKunyesShowInitWaitingMessage = createSelector(
-    selectEylemPlaniKunyesState,
-    eylemPlaniKunyesState => eylemPlaniKunyesState.showInitWaitingMessage
+export const selectEylemPlaniMaddesShowInitWaitingMessage = createSelector(
+    selectEylemPlaniMaddesState,
+    eylemPlaniMaddesState => eylemPlaniMaddesState.showInitWaitingMessage
 );
 
-export const selectEylemPlaniKunyesInStore = createSelector(
-    selectEylemPlaniKunyesState,
-    eylemPlaniKunyesState => {
-        const items: EylemPlaniKunyeModel[] = [];
-        each(eylemPlaniKunyesState.entities, element => {
+export const selectEylemPlaniMaddesInStore = createSelector(
+    selectEylemPlaniMaddesState,
+    eylemPlaniMaddesState => {
+        const items: EylemPlaniMaddeModel[] = [];
+        each(eylemPlaniMaddesState.entities, element => {
             items.push(element);
         });
         const httpExtension = new HttpExtenstionsModel();
-        const result: EylemPlaniKunyeModel[] = httpExtension.sortArray(items, eylemPlaniKunyesState.lastQuery.sortField, eylemPlaniKunyesState.lastQuery.sortOrder);
-        return new QueryResultsModel(result, eylemPlaniKunyesState.totalCount, '');
+        const result: EylemPlaniMaddeModel[] = httpExtension.sortArray(items, eylemPlaniMaddesState.lastQuery.sortField, eylemPlaniMaddesState.lastQuery.sortOrder);
+        return new QueryResultsModel(result, eylemPlaniMaddesState.totalCount, '');
     }
 );

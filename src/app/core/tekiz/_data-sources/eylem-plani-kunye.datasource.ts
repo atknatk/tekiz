@@ -1,6 +1,3 @@
-import { mergeMap, tap } from 'rxjs/operators';
-// RxJS
-import { delay, distinctUntilChanged, skip, filter, take, map } from 'rxjs/operators';
 // NGRX
 import { Store, select } from '@ngrx/store';
 // CRUD

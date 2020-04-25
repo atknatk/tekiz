@@ -48,6 +48,7 @@ export class FakeApiService implements InMemoryDbService {
 			platformKunyes: TekizDataContext.platformKunyes,
 		//	countries: PlatformDataContext.countries,
 			eylemPlaniKunyes: TekizDataContext.eylemPlaniKunyes,
+			eylemPlaniMaddes: TekizDataContext.eylemPlaniMaddes,
 		};
 		return db;
 	}

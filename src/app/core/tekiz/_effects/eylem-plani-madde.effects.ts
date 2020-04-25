@@ -10,45 +10,45 @@ import { Store } from '@ngrx/store';
 // CRUD
 import { QueryResultsModel } from '../../_base/crud';
 // Services
-import { EylemPlaniKunyesService } from '../_services';
+import { EylemPlaniMaddesService } from '../_services';
 // State
 import { AppState } from '../../reducers';
 // Actions
 import {
-    EylemPlaniKunyeActionTypes,
-    EylemPlaniKunyesPageRequested,
-    EylemPlaniKunyesPageLoaded,
-    ManyEylemPlaniKunyesDeleted,
-    OneEylemPlaniKunyeDeleted,
-    EylemPlaniKunyeActionToggleLoading,
-    EylemPlaniKunyesPageToggleLoading,
-    EylemPlaniKunyeUpdated,
-    EylemPlaniKunyesStatusUpdated,
-    EylemPlaniKunyeCreated,
-    EylemPlaniKunyeOnServerCreated
-} from '../_actions/eylem-plani-kunye.actions';
+    EylemPlaniMaddeActionTypes,
+    EylemPlaniMaddesPageRequested,
+    EylemPlaniMaddesPageLoaded,
+    ManyEylemPlaniMaddesDeleted,
+    OneEylemPlaniMaddeDeleted,
+    EylemPlaniMaddeActionToggleLoading,
+    EylemPlaniMaddesPageToggleLoading,
+    EylemPlaniMaddeUpdated,
+    EylemPlaniMaddesStatusUpdated,
+    EylemPlaniMaddeCreated,
+    EylemPlaniMaddeOnServerCreated
+} from '../_actions/eylem-plani-madde.actions';
 import { of } from 'rxjs';
 
 @Injectable()
-export class EylemPlaniKunyeEffects {
-    showPageLoadingDistpatcher = new EylemPlaniKunyesPageToggleLoading({ isLoading: true });
-    showActionLoadingDistpatcher = new EylemPlaniKunyeActionToggleLoading({ isLoading: true });
-    hideActionLoadingDistpatcher = new EylemPlaniKunyeActionToggleLoading({ isLoading: false });
+export class EylemPlaniMaddeEffects {
+    showPageLoadingDistpatcher = new EylemPlaniMaddesPageToggleLoading({ isLoading: true });
+    showActionLoadingDistpatcher = new EylemPlaniMaddeActionToggleLoading({ isLoading: true });
+    hideActionLoadingDistpatcher = new EylemPlaniMaddeActionToggleLoading({ isLoading: false });
 
     @Effect()
-    loadEylemPlaniKunyesPage$ = this.actions$.pipe(
-        ofType<EylemPlaniKunyesPageRequested>(EylemPlaniKunyeActionTypes.EylemPlaniKunyesPageRequested),
+    loadEylemPlaniMaddesPage$ = this.actions$.pipe(
+        ofType<EylemPlaniMaddesPageRequested>(EylemPlaniMaddeActionTypes.EylemPlaniMaddesPageRequested),
         mergeMap(( { payload } ) => {
             this.store.dispatch(this.showPageLoadingDistpatcher);
-            const requestToServer = this.eylemPlaniKunyesService.findEylemPlaniKunyes(payload.page);
+            const requestToServer = this.eylemPlaniMaddesService.findEylemPlaniMaddes(payload.page);
             const lastQuery = of(payload.page);
             return forkJoin(requestToServer, lastQuery);
         }),
         map(response => {
             const result: QueryResultsModel = response[0];
             const lastQuery: QueryParamsModel = response[1];
-            const pageLoadedDispatch = new EylemPlaniKunyesPageLoaded({
-                eylemPlaniKunyes: result.items,
+            const pageLoadedDispatch = new EylemPlaniMaddesPageLoaded({
+                eylemPlaniMaddes: result.items,
                 totalCount: result.totalCount,
                 page: lastQuery
             });
@@ -57,12 +57,12 @@ export class EylemPlaniKunyeEffects {
     );
 
     @Effect()
-    deleteEylemPlaniKunye$ = this.actions$
+    deleteEylemPlaniMadde$ = this.actions$
         .pipe(
-            ofType<OneEylemPlaniKunyeDeleted>(EylemPlaniKunyeActionTypes.OneEylemPlaniKunyeDeleted),
+            ofType<OneEylemPlaniMaddeDeleted>(EylemPlaniMaddeActionTypes.OneEylemPlaniMaddeDeleted),
             mergeMap(( { payload } ) => {
                     this.store.dispatch(this.showActionLoadingDistpatcher);
-                    return this.eylemPlaniKunyesService.deleteEylemPlaniKunye(payload.id);
+                    return this.eylemPlaniMaddesService.deleteEylemPlaniMadde(payload.id);
                 }
             ),
             map(() => {
@@ -71,12 +71,12 @@ export class EylemPlaniKunyeEffects {
         );
 
     @Effect()
-    deleteEylemPlaniKunyes$ = this.actions$
+    deleteEylemPlaniMaddes$ = this.actions$
         .pipe(
-            ofType<ManyEylemPlaniKunyesDeleted>(EylemPlaniKunyeActionTypes.ManyEylemPlaniKunyesDeleted),
+            ofType<ManyEylemPlaniMaddesDeleted>(EylemPlaniMaddeActionTypes.ManyEylemPlaniMaddesDeleted),
             mergeMap(( { payload } ) => {
                     this.store.dispatch(this.showActionLoadingDistpatcher);
-                    return this.eylemPlaniKunyesService.deleteEylemPlaniKunyes(payload.ids);
+                    return this.eylemPlaniMaddesService.deleteEylemPlaniMaddes(payload.ids);
                 }
             ),
             map(() => {
@@ -85,12 +85,12 @@ export class EylemPlaniKunyeEffects {
         );
 
     @Effect()
-    updateEylemPlaniKunye$ = this.actions$
+    updateEylemPlaniMadde$ = this.actions$
         .pipe(
-            ofType<EylemPlaniKunyeUpdated>(EylemPlaniKunyeActionTypes.EylemPlaniKunyeUpdated),
+            ofType<EylemPlaniMaddeUpdated>(EylemPlaniMaddeActionTypes.EylemPlaniMaddeUpdated),
             mergeMap(( { payload } ) => {
                 this.store.dispatch(this.showActionLoadingDistpatcher);
-                return this.eylemPlaniKunyesService.updateEylemPlaniKunye(payload.eylemPlaniKunye);
+                return this.eylemPlaniMaddesService.updateEylemPlaniMadde(payload.eylemPlaniMadde);
             }),
             map(() => {
                 return this.hideActionLoadingDistpatcher;
@@ -98,12 +98,12 @@ export class EylemPlaniKunyeEffects {
         );
 
     @Effect()
-    updateEylemPlaniKunyesStatus$ = this.actions$
+    updateEylemPlaniMaddesStatus$ = this.actions$
         .pipe(
-            ofType<EylemPlaniKunyesStatusUpdated>(EylemPlaniKunyeActionTypes.EylemPlaniKunyesStatusUpdated),
+            ofType<EylemPlaniMaddesStatusUpdated>(EylemPlaniMaddeActionTypes.EylemPlaniMaddesStatusUpdated),
             mergeMap(( { payload } ) => {
                 this.store.dispatch(this.showActionLoadingDistpatcher);
-                return this.eylemPlaniKunyesService.updateStatusForEylemPlaniKunye(payload.eylemPlaniKunyes, payload.status);
+                return this.eylemPlaniMaddesService.updateStatusForEylemPlaniMadde(payload.eylemPlaniMaddes, payload.status);
             }),
             map(() => {
                 return this.hideActionLoadingDistpatcher;
@@ -111,14 +111,14 @@ export class EylemPlaniKunyeEffects {
         );
 
     @Effect()
-    createEylemPlaniKunye$ = this.actions$
+    createEylemPlaniMadde$ = this.actions$
         .pipe(
-            ofType<EylemPlaniKunyeOnServerCreated>(EylemPlaniKunyeActionTypes.EylemPlaniKunyeOnServerCreated),
+            ofType<EylemPlaniMaddeOnServerCreated>(EylemPlaniMaddeActionTypes.EylemPlaniMaddeOnServerCreated),
             mergeMap(( { payload } ) => {
                 this.store.dispatch(this.showActionLoadingDistpatcher);
-                return this.eylemPlaniKunyesService.createEylemPlaniKunye(payload.eylemPlaniKunye).pipe(
+                return this.eylemPlaniMaddesService.createEylemPlaniMadde(payload.eylemPlaniMadde).pipe(
                     tap(res => {
-                        this.store.dispatch(new EylemPlaniKunyeCreated({ eylemPlaniKunye: res }));
+                        this.store.dispatch(new EylemPlaniMaddeCreated({ eylemPlaniMadde: res }));
                     })
                 );
             }),
@@ -127,5 +127,5 @@ export class EylemPlaniKunyeEffects {
             }),
         );
 
-    constructor(private actions$: Actions, private eylemPlaniKunyesService: EylemPlaniKunyesService, private store: Store<AppState>) { }
+    constructor(private actions$: Actions, private eylemPlaniMaddesService: EylemPlaniMaddesService, private store: Store<AppState>) { }
 }

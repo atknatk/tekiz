@@ -1,30 +1,33 @@
-import { BaseModel } from '../../_base/crud';
+import { BaseModel } from "../../_base/crud";
 
-export class EylemPlaniKunyeModel extends BaseModel {
+export class EylemPlaniMaddeModel extends BaseModel {
 	id: number;
-	kek: string;
-	planName: string;
-	planPeriod: string;
-	signedDate: Date;
-	localSigner: string;
-	foreignSigner: string;
-	areaName: string[];
-	areaNo: string;
-	responsibleInstitution: string;
-	responsiblePresident: string;
-	
+	eylemPlan: string;
+	eylemArea: string;
+	eylemNo: string;
+	eylemName: string;
+	eylemDescription: string;
+	eylemStartDate: Date;
+	eylemEndDate: Date;
+	foreignResponsibleInstitution: string[];
+	localResponsibleInstitution: string[];
+	relatedInstitution: string;
+	ownerInstitution: string;
+	status: number;
+
 	clear() {
 		this.id = undefined;
-		this.kek= '';
-		this.planName= '';
-		this.planPeriod= '';
-	//	this.signedDate= '';
-		this.localSigner= '';
-		this.foreignSigner= '';
-		this.areaName= [];
-		this.areaNo= '';
-		this.responsibleInstitution= '';
-		this.responsiblePresident= '';
-		
+		this.eylemPlan = "";
+		this.eylemArea = "";
+		this.eylemNo = "";
+		this.eylemName = "";
+		this.eylemDescription = "";
+		this.eylemStartDate = null;
+		this.eylemEndDate = null;
+		this.foreignResponsibleInstitution = [];
+		this.localResponsibleInstitution = [];
+		this.relatedInstitution = "";
+		this.ownerInstitution = "";
+		this.status = 0;
 	}
 }

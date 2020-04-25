@@ -9,38 +9,38 @@ import { each } from 'lodash';
 // CRUD
 import { HttpUtilsService, QueryParamsModel, QueryResultsModel } from '../../_base/crud';
 // Models
-import { EylemPlaniKunyeModel } from '../_models/eylem-plani-kunye.model';
+import { EylemPlaniMaddeModel } from '../_models/eylem-plani-madde.model';
 
-const API_CUSTOMERS_URL = 'api/eylemPlaniKunyes';
+const API_CUSTOMERS_URL = 'api/eylemPlaniMaddes';
 
 // Fake REST API (Mock)
 // This code emulates server calls
 @Injectable()
-export class EylemPlaniKunyesService {
+export class EylemPlaniMaddesService {
 	constructor(private http: HttpClient, private httpUtils: HttpUtilsService) { }
 
-	// CREATE =>  POST: add a new eylemPlaniKunye to the server
-	createEylemPlaniKunye(eylemPlaniKunye: EylemPlaniKunyeModel): Observable<EylemPlaniKunyeModel> {
+	// CREATE =>  POST: add a new eylemPlaniMadde to the server
+	createEylemPlaniMadde(eylemPlaniMadde: EylemPlaniMaddeModel): Observable<EylemPlaniMaddeModel> {
 		// Note: Add headers if needed (tokens/bearer)
 		const httpHeaders = this.httpUtils.getHTTPHeaders();
-		return this.http.post<EylemPlaniKunyeModel>(API_CUSTOMERS_URL, eylemPlaniKunye, { headers: httpHeaders});
+		return this.http.post<EylemPlaniMaddeModel>(API_CUSTOMERS_URL, eylemPlaniMadde, { headers: httpHeaders});
 	}
 
 	// READ
-	getAllEylemPlaniKunyes(): Observable<EylemPlaniKunyeModel[]> {
-		return this.http.get<EylemPlaniKunyeModel[]>(API_CUSTOMERS_URL);
+	getAllEylemPlaniMaddes(): Observable<EylemPlaniMaddeModel[]> {
+		return this.http.get<EylemPlaniMaddeModel[]>(API_CUSTOMERS_URL);
 	}
 
-	getEylemPlaniKunyeById(eylemPlaniKunyeId: number): Observable<EylemPlaniKunyeModel> {
-		return this.http.get<EylemPlaniKunyeModel>(API_CUSTOMERS_URL + `/${eylemPlaniKunyeId}`);
+	getEylemPlaniMaddeById(eylemPlaniMaddeId: number): Observable<EylemPlaniMaddeModel> {
+		return this.http.get<EylemPlaniMaddeModel>(API_CUSTOMERS_URL + `/${eylemPlaniMaddeId}`);
 	}
 
 	// Method from server should return QueryResultsModel(items: any[], totalsCount: number)
 	// items => filtered/sorted result
-	findEylemPlaniKunyes(queryParams: QueryParamsModel): Observable<QueryResultsModel> {
+	findEylemPlaniMaddes(queryParams: QueryParamsModel): Observable<QueryResultsModel> {
 		// This code imitates server calls
 		const url = API_CUSTOMERS_URL;
-		return this.http.get<EylemPlaniKunyeModel[]>(API_CUSTOMERS_URL).pipe(
+		return this.http.get<EylemPlaniMaddeModel[]>(API_CUSTOMERS_URL).pipe(
 			mergeMap(res => {
 				const result = this.httpUtils.baseFilter(res, queryParams, ['status', 'type']);
 				return of(result);
@@ -49,35 +49,35 @@ export class EylemPlaniKunyesService {
 	}
 
 
-	// UPDATE => PUT: update the eylemPlaniKunye on the server
-	updateEylemPlaniKunye(eylemPlaniKunye: EylemPlaniKunyeModel): Observable<any> {
+	// UPDATE => PUT: update the eylemPlaniMadde on the server
+	updateEylemPlaniMadde(eylemPlaniMadde: EylemPlaniMaddeModel): Observable<any> {
 		const httpHeader = this.httpUtils.getHTTPHeaders();
-		return this.http.put(API_CUSTOMERS_URL, eylemPlaniKunye, { headers: httpHeader });
+		return this.http.put(API_CUSTOMERS_URL, eylemPlaniMadde, { headers: httpHeader });
 	}
 
 	// UPDATE Status
-	updateStatusForEylemPlaniKunye(eylemPlaniKunyes: EylemPlaniKunyeModel[], status: number): Observable<any> {
+	updateStatusForEylemPlaniMadde(eylemPlaniMaddes: EylemPlaniMaddeModel[], status: number): Observable<any> {
 		const tasks$ = [];
-		each(eylemPlaniKunyes, element => {
-			const _eylemPlaniKunye = Object.assign({}, element);
-		//	_eylemPlaniKunye.status = status;
-			tasks$.push(this.updateEylemPlaniKunye(_eylemPlaniKunye));
+		each(eylemPlaniMaddes, element => {
+			const _eylemPlaniMadde = Object.assign({}, element);
+		//	_eylemPlaniMadde.status = status;
+			tasks$.push(this.updateEylemPlaniMadde(_eylemPlaniMadde));
 		});
 		return forkJoin(tasks$);
 	}
 
-	// DELETE => delete the eylemPlaniKunye from the server
-	deleteEylemPlaniKunye(eylemPlaniKunyeId: number): Observable<any> {
-		const url = `${API_CUSTOMERS_URL}/${eylemPlaniKunyeId}`;
-		return this.http.delete<EylemPlaniKunyeModel>(url);
+	// DELETE => delete the eylemPlaniMadde from the server
+	deleteEylemPlaniMadde(eylemPlaniMaddeId: number): Observable<any> {
+		const url = `${API_CUSTOMERS_URL}/${eylemPlaniMaddeId}`;
+		return this.http.delete<EylemPlaniMaddeModel>(url);
 	}
 
-	deleteEylemPlaniKunyes(ids: number[] = []): Observable<any> {
+	deleteEylemPlaniMaddes(ids: number[] = []): Observable<any> {
 		const tasks$ = [];
 		const length = ids.length;
 		// tslint:disable-next-line:prefer-const
 		for (let i = 0; i < length; i++) {
-			tasks$.push(this.deleteEylemPlaniKunye(ids[i]));
+			tasks$.push(this.deleteEylemPlaniMadde(ids[i]));
 		}
 		return forkJoin(tasks$);
 	}

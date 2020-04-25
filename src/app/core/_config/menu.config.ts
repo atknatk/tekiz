@@ -695,6 +695,10 @@ export class MenuConfig {
 						{
 							title: 'Eylem Planı Kunye',
 							page: '/tekiz/eylem-plani-kunye'
+						},
+						{
+							title: 'Eylem Planı Maddeleri',
+							page: '/tekiz/eylem-plani-madde'
 						}
 					]
 				},

@@ -1,5 +1,5 @@
-export class EylemPlaniKunyeTable {
-	public static eylemPlaniKunyes: any = [
+export class EylemPlaniMaddeTable {
+	public static eylemPlaniMaddes: any = [
 		{
 			id: 1,
 			kek: "Özbekistan Karma Ekonomik Komisyon",

@@ -25,6 +25,9 @@ import {
 	eylemPlaniKunyesReducer,
 	EylemPlaniKunyeEffects,
 	EylemPlaniKunyesService,
+	eylemPlaniMaddesReducer,
+	EylemPlaniMaddeEffects,
+	EylemPlaniMaddesService,
 } from "../../../../core/tekiz";
 // Core => Utils
 import {
@@ -78,6 +81,8 @@ import { PlatformKunyesListComponent } from "./platform/kunye/kunye-list/platfor
 import { EylemPlaniKunyesListComponent } from "./eylem-plani/kunye/kunye-list/eylem-plani-kunye-list.component";
 import { PlatformKunyeEditDialogComponent } from "./platform/kunye/kunye-edit/platform-kunye-edit.dialog.component";
 import { EylemPlaniKunyeEditDialogComponent } from "./eylem-plani/kunye/kunye-edit/eylem-plani-kunye-edit.dialog.component";
+import { EylemPlaniMaddesListComponent } from './eylem-plani/madde/madde-list/eylem-plani-madde-list.component';
+import { EylemPlaniMaddeEditDialogComponent } from './eylem-plani/madde/madde-edit/eylem-plani-madde-edit.dialog.component';
 
 // tslint:disable-next-line:class-name
 const routes: Routes = [
@@ -99,6 +104,10 @@ const routes: Routes = [
 			{
 				path: "eylem-plani-kunye",
 				component: EylemPlaniKunyesListComponent,
+			},
+			{
+				path: "eylem-plani-madde",
+				component: EylemPlaniMaddesListComponent,
 			},
 			// {
 			// 	path: 'orders',
@@ -166,6 +175,8 @@ const routes: Routes = [
 		EffectsModule.forFeature([PlatformKunyeEffects]),
 		StoreModule.forFeature("eylemPlaniKunyes", eylemPlaniKunyesReducer),
 		EffectsModule.forFeature([EylemPlaniKunyeEffects]),
+		StoreModule.forFeature("eylemPlaniMaddes", eylemPlaniMaddesReducer),
+		EffectsModule.forFeature([EylemPlaniMaddeEffects]),
 	],
 	providers: [
 		ModuleGuard,
@@ -189,6 +200,7 @@ const routes: Routes = [
 		HttpUtilsService,
 		PlatformKunyesService,
 		EylemPlaniKunyesService,
+		EylemPlaniMaddesService,
 		TypesUtilsService,
 		LayoutUtilsService,
 	],
@@ -199,6 +211,7 @@ const routes: Routes = [
 		FetchEntityDialogComponent,
 		UpdateStatusDialogComponent,
 		EylemPlaniKunyeEditDialogComponent,
+		EylemPlaniMaddeEditDialogComponent
 	],
 	declarations: [
 		TekizComponent,
@@ -209,6 +222,8 @@ const routes: Routes = [
 		// Platform Kunye
 		EylemPlaniKunyesListComponent,
 		EylemPlaniKunyeEditDialogComponent,
+		EylemPlaniMaddesListComponent,
+		EylemPlaniMaddeEditDialogComponent,
 	],
 })
 export class TekizModule {}
