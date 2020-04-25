@@ -10,7 +10,7 @@ export class LayoutConfig {
 			},
 			logo: {
 				dark: "./assets/media/logos/logo-light.png",
-				light: "./assets/media/logos/logo-dark.png",
+				light: "./assets/media/logos/logo-5.png",
 				brand: "./assets/media/logos/logo-light.png",
 				green: "./assets/media/logos/logo-light.png",
 			},

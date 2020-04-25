@@ -64,7 +64,7 @@ import { PlatformKunyeEditDialogComponent } from "../kunye-edit/platform-kunye-e
 export class PlatformKunyesListComponent implements OnInit, OnDestroy {
 	// Table fields
 	dataSource: PlatformKunyesDataSource;
-	displayedColumns = ["select", "id",  "country", "name", "owner", "actions"];
+	displayedColumns = ["select", "id", "country", "name", "owner", "actions"];
 	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 	@ViewChild("sort1", { static: true }) sort: MatSort;
 	// Filter fields
@@ -187,22 +187,13 @@ export class PlatformKunyesListComponent implements OnInit, OnDestroy {
 		const filter: any = {};
 		const searchText: string = this.searchInput.nativeElement.value;
 
-		if (this.filterStatus && this.filterStatus.length > 0) {
-			filter.status = +this.filterStatus;
-		}
-
-		if (this.filterType && this.filterType.length > 0) {
-			filter.type = +this.filterType;
-		}
-
-		filter.lastName = searchText;
 		if (!searchText) {
 			return filter;
 		}
 
-		filter.firstName = searchText;
-		filter.email = searchText;
-		filter.ipAddress = searchText;
+		filter.country = searchText;
+		filter.name = searchText;
+		filter.owner = searchText;
 		return filter;
 	}
 
@@ -213,18 +204,11 @@ export class PlatformKunyesListComponent implements OnInit, OnDestroy {
 	 * @param _item: PlatformKunyeModel
 	 */
 	deletePlatformKunye(_item: PlatformKunyeModel) {
-		const _title: string = this.translate.instant(
-			"ECOMMERCE.CUSTOMERS.DELETE_CUSTOMER_SIMPLE.TITLE"
-		);
-		const _description: string = this.translate.instant(
-			"ECOMMERCE.CUSTOMERS.DELETE_CUSTOMER_SIMPLE.DESCRIPTION"
-		);
-		const _waitDesciption: string = this.translate.instant(
-			"ECOMMERCE.CUSTOMERS.DELETE_CUSTOMER_SIMPLE.WAIT_DESCRIPTION"
-		);
-		const _deleteMessage = this.translate.instant(
-			"ECOMMERCE.CUSTOMERS.DELETE_CUSTOMER_SIMPLE.MESSAGE"
-		);
+		const _title = "Platform Künye Sil";
+		const _description =
+			"Kalıcı olarak Platform Künyesi silmek için emin misiniz ?";
+		const _waitDesciption = "Platform Künyesi Siliniyor";
+		const _deleteMessage = "Platform Künyesi Silindi";
 
 		const dialogRef = this.layoutUtilsService.deleteElement(
 			_title,
@@ -248,18 +232,12 @@ export class PlatformKunyesListComponent implements OnInit, OnDestroy {
 	 * Delete selected platformKunyes
 	 */
 	deletePlatformKunyes() {
-		const _title: string = this.translate.instant(
-			"ECOMMERCE.CUSTOMERS.DELETE_CUSTOMER_MULTY.TITLE"
-		);
-		const _description: string = this.translate.instant(
-			"ECOMMERCE.CUSTOMERS.DELETE_CUSTOMER_MULTY.DESCRIPTION"
-		);
-		const _waitDesciption: string = this.translate.instant(
-			"ECOMMERCE.CUSTOMERS.DELETE_CUSTOMER_MULTY.WAIT_DESCRIPTION"
-		);
-		const _deleteMessage = this.translate.instant(
-			"ECOMMERCE.CUSTOMERS.DELETE_CUSTOMER_MULTY.MESSAGE"
-		);
+		const _title = "Platform Künyelerini Sil";
+		const _description =
+			"Kalıcı olarak Platform Künyelerini silmek için emin misiniz ?";
+		const _waitDesciption = "Platform Künyeleri Siliniyor";
+		const _deleteMessage = "Platform Künyeleri Silindi";
+
 
 		const dialogRef = this.layoutUtilsService.deleteElement(
 			_title,
@@ -301,62 +279,7 @@ export class PlatformKunyesListComponent implements OnInit, OnDestroy {
 		this.layoutUtilsService.fetchElements(messages);
 	}
 
-	/**
-	 * Show UpdateStatuDialog for selected platformKunyes
-	 */
-	updateStatusForPlatformKunyes() {
-		const _title = this.translate.instant(
-			"ECOMMERCE.CUSTOMERS.UPDATE_STATUS.TITLE"
-		);
-		const _updateMessage = this.translate.instant(
-			"ECOMMERCE.CUSTOMERS.UPDATE_STATUS.MESSAGE"
-		);
-		const _statuses = [
-			{ value: 0, text: "Suspended" },
-			{ value: 1, text: "Active" },
-			{ value: 2, text: "Pending" },
-		];
-		const _messages = [];
-
-		this.selection.selected.forEach((elem) => {
-			_messages.push({
-				text: `${elem.name}, ${elem.owner}`,
-				id: elem.id.toString(),
-				status: elem.status,
-				statusTitle: this.getItemStatusString(elem.status),
-				statusCssClass: this.getItemCssClassByStatus(elem.status),
-			});
-		});
-
-		const dialogRef = this.layoutUtilsService.updateStatusForEntities(
-			_title,
-			_statuses,
-			_messages
-		);
-		dialogRef.afterClosed().subscribe((res) => {
-			if (!res) {
-				this.selection.clear();
-				return;
-			}
-
-			this.store.dispatch(
-				new PlatformKunyesStatusUpdated({
-					status: +res,
-					platformKunyes: this.selection.selected,
-				})
-			);
-
-			this.layoutUtilsService.showActionNotification(
-				_updateMessage,
-				MessageType.Update,
-				10000,
-				true,
-				true
-			);
-			this.selection.clear();
-		});
-	}
-
+	
 	/**
 	 * Show add platformKunye dialog
 	 */

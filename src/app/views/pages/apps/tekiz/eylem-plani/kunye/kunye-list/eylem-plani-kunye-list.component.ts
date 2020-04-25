@@ -161,12 +161,11 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 	 * @param _item: EylemPlaniKunyeModel
 	 */
 	deleteEylemPlaniKunye(_item: EylemPlaniKunyeModel) {
-		const _title: string = this.translate.instant('ECOMMERCE.CUSTOMERS.DELETE_CUSTOMER_SIMPLE.TITLE');
-		const _description: string = this.translate.instant('ECOMMERCE.CUSTOMERS.DELETE_CUSTOMER_SIMPLE.DESCRIPTION');
-		const _waitDesciption: string = this.translate.instant('ECOMMERCE.CUSTOMERS.DELETE_CUSTOMER_SIMPLE.WAIT_DESCRIPTION');
-		const _deleteMessage = this.translate.instant('ECOMMERCE.CUSTOMERS.DELETE_CUSTOMER_SIMPLE.MESSAGE');
-
-		const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
+		const _title = "Eylem Planı Künyesini Sil";
+		const _description =
+			"Kalıcı olarak Eylem Planı Künyesi silmek için emin misiniz ?";
+		const _waitDesciption = "Eylem Planı Künyesi Siliniyor";
+		const _deleteMessage = "Eylem Planı Künyesi Silindi";		const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
 		dialogRef.afterClosed().subscribe(res => {
 			if (!res) {
 				return;
@@ -181,11 +180,11 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 	 * Delete selected eylemPlaniKunyes
 	 */
 	deleteEylemPlaniKunyes() {
-		const _title: string = this.translate.instant('ECOMMERCE.CUSTOMERS.DELETE_CUSTOMER_MULTY.TITLE');
-		const _description: string = this.translate.instant('ECOMMERCE.CUSTOMERS.DELETE_CUSTOMER_MULTY.DESCRIPTION');
-		const _waitDesciption: string = this.translate.instant('ECOMMERCE.CUSTOMERS.DELETE_CUSTOMER_MULTY.WAIT_DESCRIPTION');
-		const _deleteMessage = this.translate.instant('ECOMMERCE.CUSTOMERS.DELETE_CUSTOMER_MULTY.MESSAGE');
-
+		const _title = "Eylem Planı Künyelerini Sil";
+		const _description =
+			"Kalıcı olarak Eylem Planı Künyelerini silmek için emin misiniz ?";
+		const _waitDesciption = "Eylem Planı Künyeleri Siliniyor";
+		const _deleteMessage = "Eylem Planı Künyeleri Silindi";
 		const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
 		dialogRef.afterClosed().subscribe(res => {
 			if (!res) {
