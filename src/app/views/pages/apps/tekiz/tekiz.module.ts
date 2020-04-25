@@ -66,6 +66,7 @@ import {
 	MAT_DIALOG_DEFAULT_OPTIONS,
 	MatSnackBarModule,
 	MatTooltipModule,
+	MatChipsModule,
 } from "@angular/material";
 import { environment } from "../../../../../environments/environment";
 import {
@@ -153,6 +154,7 @@ const routes: Routes = [
 		MatSnackBarModule,
 		MatTabsModule,
 		MatTooltipModule,
+		MatChipsModule,
 		NgbProgressbarModule,
 		environment.isMockEnabled
 			? HttpClientInMemoryWebApiModule.forFeature(FakeApiService, {

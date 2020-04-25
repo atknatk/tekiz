@@ -47,13 +47,13 @@
                 </div>
                 <div class="col-md-4 kt-margin-bottom-10-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <input matInput placeholder="Plan Periyodu Giriniz" formControlName="planPeriod">
+                        <input matInput placeholder="Plan Dönemi Giriniz" formControlName="planPeriod">
                         <mat-error>
-                            Plan Periyot 
+                            Plan Dönemi 
                             <strong>zorunludur</strong>
                         </mat-error>
                         <mat-hint align="start">Lütfen
-                            <strong>Plan Periyod</strong>unu giriniz
+                            <strong>Plan Dönem</strong>i giriniz
                         </mat-hint>
                     </mat-form-field>
                 </div>
@@ -86,9 +86,15 @@
             </div>
             <div class="kt-separator kt-separator--dashed"></div>
             <div class="form-group kt-form__group row">
-                <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <div class="col-lg-12 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <input matInput placeholder="Alan Adını Giriniz" formControlName="areaName">
+                        <mat-chip-list #chipList formControlName="areaName">
+							<mat-chip *ngFor="let area of eylemPlaniKunyeForm.get('areaName').value" [selectable]="true" [removable]="true" (removed)="removeAreaName(area)">
+								{{area}}
+								<mat-icon matChipRemove>cancel</mat-icon>
+							</mat-chip>
+							<input placeholder="Alan Adını Giriniz" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addAreaName($event)" />
+						</mat-chip-list>
                         <mat-error>
                            Alan Adı
                             <strong>zorunludur</strong>
@@ -98,18 +104,6 @@
                         </mat-hint>
                     </mat-form-field>
                 </div>
-                <div class="col-md-4 kt-margin-bottom-10-mobile">
-                    <mat-form-field class="mat-form-field-fluid">
-                        <input matInput placeholder="Alan No Giriniz" formControlName="areaNo">
-                        <mat-error>
-                            Alan No  
-                            <strong>zorunludur</strong>
-                        </mat-error>
-                        <mat-hint align="start">Lütfen
-                            <strong>Alan No</strong>yu giriniz
-                        </mat-hint>
-                    </mat-form-field>
-                </div>   
             </div>
             <div class="kt-separator kt-separator--dashed"></div>
             <div class="form-group kt-form__group row">

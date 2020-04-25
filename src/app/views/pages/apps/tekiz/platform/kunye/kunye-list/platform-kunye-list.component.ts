@@ -64,7 +64,7 @@ import { PlatformKunyeEditDialogComponent } from "../kunye-edit/platform-kunye-e
 export class PlatformKunyesListComponent implements OnInit, OnDestroy {
 	// Table fields
 	dataSource: PlatformKunyesDataSource;
-	displayedColumns = ["select", "id", "name", "country", "owner", "actions"];
+	displayedColumns = ["select", "id",  "country", "name", "owner", "actions"];
 	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 	@ViewChild("sort1", { static: true }) sort: MatSort;
 	// Filter fields

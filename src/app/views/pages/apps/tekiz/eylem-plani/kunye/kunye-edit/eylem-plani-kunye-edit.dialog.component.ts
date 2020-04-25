@@ -7,12 +7,28 @@ import {
 	ViewEncapsulation,
 	OnDestroy,
 } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+	FormBuilder,
+	FormGroup,
+	Validators,
+	FormControl,
+} from "@angular/forms";
 // Material
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import {
+	MatDialogRef,
+	MAT_DIALOG_DATA,
+	MatChipInputEvent,
+} from "@angular/material";
 // RxJS
 import { Subscription, of, Observable } from "rxjs";
-import { delay, skip, distinctUntilChanged, take, startWith, map } from "rxjs/operators";
+import {
+	delay,
+	skip,
+	distinctUntilChanged,
+	take,
+	startWith,
+	map,
+} from "rxjs/operators";
 // NGRX
 import { Update } from "@ngrx/entity";
 import { Store, select } from "@ngrx/store";
@@ -32,6 +48,7 @@ import {
 	selectLastCreatedEylemPlaniKunyeId,
 	PlatformKunyesPageRequested,
 } from "../../../../../../../core/tekiz";
+import { COMMA, ENTER } from "@angular/cdk/keycodes";
 // Services and Models
 
 @Component({
@@ -46,9 +63,10 @@ export class EylemPlaniKunyeEditDialogComponent implements OnInit, OnDestroy {
 	eylemPlaniKunye: EylemPlaniKunyeModel;
 	eylemPlaniKunyeForm: FormGroup;
 	hasFormErrors = false;
-    viewLoading = false;
-    AVAILABLE_KEK = [];
-    filteredPlatformKunyes: Observable<string[]>;
+	viewLoading = false;
+	AVAILABLE_KEK = [];
+	filteredPlatformKunyes: Observable<string[]>;
+	readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 	// Private properties
 	private subscriptions: Subscription[] = [];
 	/**
@@ -80,13 +98,13 @@ export class EylemPlaniKunyeEditDialogComponent implements OnInit, OnDestroy {
 			.pipe(select(selectEylemPlaniKunyesActionLoading))
 			.subscribe((res) => (this.viewLoading = res));
 		this.eylemPlaniKunye = this.data.eylemPlaniKunye;
-	
+
 		const dataSource = new PlatformKunyesDataSource(this.store);
 		const entitiesSubscription = dataSource.entitySubject
 			.pipe(skip(1), distinctUntilChanged())
 			.subscribe((res) => {
-                this.AVAILABLE_KEK = res.map( l => l.name);
-                this.createForm();
+				this.AVAILABLE_KEK = res.map((l) => l.name);
+				this.createForm();
 			});
 		this.subscriptions.push(entitiesSubscription);
 		this.loadPlatformKunyesList();
@@ -108,23 +126,64 @@ export class EylemPlaniKunyeEditDialogComponent implements OnInit, OnDestroy {
 
 	createForm() {
 		this.eylemPlaniKunyeForm = this.fb.group({
-		//	country: [this.eylemPlaniKunye.country, Validators.required],
+			//	country: [this.eylemPlaniKunye.country, Validators.required],
 			kek: [this.eylemPlaniKunye.kek, Validators.required],
-			// // owner: [this.eylemPlaniKunye.owner, Validators.required],
-			// // summary: [ this.eylemPlaniKunye.summary ],
-        });
-        
-        this.filteredPlatformKunyes = this.eylemPlaniKunyeForm.controls.kek.valueChanges
-			.pipe(
-				startWith(''),
-                map(val => this.filterKek(val.toString()))
-            );
-            
-    }
-    
-    filterKek(val: string): string[] {
-		return this.AVAILABLE_KEK.filter(option =>
-			option.toLowerCase().includes(val.toLowerCase()));
+			areaName: new FormControl(
+				[...this.eylemPlaniKunye.areaName],
+				Validators.required
+			),
+			planName: [this.eylemPlaniKunye.planName, Validators.required],
+			planPeriod: [this.eylemPlaniKunye.planPeriod, Validators.required],
+			localSigner: [
+				this.eylemPlaniKunye.localSigner,
+				Validators.required,
+			],
+			foreignSigner: [
+				this.eylemPlaniKunye.foreignSigner,
+				Validators.required,
+			],
+			responsibleInstitution: [
+				this.eylemPlaniKunye.responsibleInstitution,
+			],
+			responsiblePresident: [
+				this.eylemPlaniKunye.responsiblePresident,
+				Validators.required,
+			],
+		});
+
+		this.filteredPlatformKunyes = this.eylemPlaniKunyeForm.controls.kek.valueChanges.pipe(
+			startWith(""),
+			map((val) => this.filterKek(val.toString()))
+		);
+	}
+
+	addAreaName(event: MatChipInputEvent) {
+		const input = event.input;
+		const value = event.value;
+		if ((value || "").trim()) {
+			this.areaName.value.push(event.value);
+			this.areaName.updateValueAndValidity();
+		}
+
+		// Reset the input value
+		if (input) {
+			input.value = "";
+		}
+	}
+
+	removeAreaName(value) {
+		this.areaName.value.splice(this.areaName.value.indexOf(value), 1);
+		this.areaName.updateValueAndValidity();
+	}
+
+	get areaName() {
+		return this.eylemPlaniKunyeForm.get("areaName");
+	}
+
+	filterKek(val: string): string[] {
+		return this.AVAILABLE_KEK.filter((option) =>
+			option.toLowerCase().includes(val.toLowerCase())
+		);
 	}
 
 	/**
@@ -159,9 +218,16 @@ export class EylemPlaniKunyeEditDialogComponent implements OnInit, OnDestroy {
 		const controls = this.eylemPlaniKunyeForm.controls;
 		const _eylemPlaniKunye = new EylemPlaniKunyeModel();
 		_eylemPlaniKunye.id = this.eylemPlaniKunye.id;
-		// _eylemPlaniKunye.name = controls.name.value;
-		// _eylemPlaniKunye.owner = controls.owner.value;
-		// _eylemPlaniKunye.summary = controls.summary.value;
+		_eylemPlaniKunye.kek = controls.kek.value;
+		_eylemPlaniKunye.planName = controls.planName.value;
+		_eylemPlaniKunye.planPeriod = controls.planPeriod.value;
+		_eylemPlaniKunye.localSigner = controls.localSigner.value;
+		_eylemPlaniKunye.foreignSigner = controls.foreignSigner.value;
+		_eylemPlaniKunye.areaName = controls.areaName.value;
+		_eylemPlaniKunye.responsibleInstitution =
+			controls.responsibleInstitution.value;
+		_eylemPlaniKunye.responsiblePresident =
+			controls.responsiblePresident.value;
 		return _eylemPlaniKunye;
 	}
 
