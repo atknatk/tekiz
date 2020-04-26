@@ -5,8 +5,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator, MatSort, MatSnackBar, MatDialog } from '@angular/material';
 // RXJS
 import { debounceTime, distinctUntilChanged, tap, skip, take, delay } from 'rxjs/operators';
-import { fromEvent, merge, Observable, of, Subscription } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
+import { fromEvent, merge, of, Subscription } from 'rxjs';
 // NGRX
 import { Store } from '@ngrx/store';
 // Services
@@ -154,10 +153,10 @@ export class RolesListComponent implements OnInit, OnDestroy {
 	 * @param _item: Role
 	 */
 	deleteRole(_item: Role) {
-		const _title = 'User Role';
-		const _description = 'Are you sure to permanently delete this role?';
-		const _waitDesciption = 'Role is deleting...';
-		const _deleteMessage = `Role has been deleted`;
+		const _title = 'Kullanıcı Rolü';
+		const _description = 'Rolü kalıcı bir şekilde silmel üzersiniz. Emin misiniz?';
+		const _waitDesciption = 'Rol siliniyor...';
+		const _deleteMessage = `Rol silindi`;
 
 		const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
 		dialogRef.afterClosed().subscribe(res => {
@@ -202,7 +201,7 @@ export class RolesListComponent implements OnInit, OnDestroy {
 	 * @param role: Role
 	 */
 	editRole(role: Role) {
-		const _saveMessage = `Role successfully has been saved.`;
+		const _saveMessage = `Rol başarılı bir şekilde kaydedildi.`;
 		const _messageType = role.id ? MessageType.Update : MessageType.Create;
 		const dialogRef = this.dialog.open(RoleEditDialogComponent, { data: { roleId: role.id } });
 		dialogRef.afterClosed().subscribe(res => {

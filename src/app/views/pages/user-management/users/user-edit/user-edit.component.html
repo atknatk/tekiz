@@ -1,16 +1,16 @@
 <kt-portlet>
 	<kt-portlet-header [title]="getComponentTitle()" [class]="'kt-portlet__head--lg'" [viewLoading$]="loading$">
 		<ng-container ktPortletTools>
-			<a [routerLink]="['../../']" class="btn btn-secondary kt-margin-r-10" mat-raised-button matTooltip="Back to the users list">
+			<a [routerLink]="['../../']" class="btn btn-secondary kt-margin-r-10" mat-raised-button matTooltip="Kullanıcı Listesine geri dön">
 				<i class="la la-arrow-left"></i>
-				<span class="kt-hidden-mobile">Back</span>
+				<span class="kt-hidden-mobile">Geri</span>
 			</a>
-			<a href="javascript:;" class="btn btn-secondary kt-margin-r-10" (click)="reset()" [disabled]="selectedTab !== 0" mat-raised-button matTooltip="Reset changes">
+			<a href="javascript:;" class="btn btn-secondary kt-margin-r-10" (click)="reset()" [disabled]="selectedTab !== 0" mat-raised-button matTooltip="Değişiklikleri sıfırla">
 				<i class="la la-cog"></i>
-				<span class="kt-hidden-mobile">Reset</span>
+				<span class="kt-hidden-mobile">Sıfırla</span>
 			</a>
-			<a href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" (click)="onSumbit(false)" mat-raised-button matTooltip="Save & Continue">
-				<span class="kt-hidden-mobile">Save</span>
+			<a href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" (click)="onSumbit(false)" mat-raised-button matTooltip="Kaydet & Devam et">
+				<span class="kt-hidden-mobile">Kaydet</span>
 			</a>
 			<button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
 				<mat-icon>more_vert</mat-icon>
@@ -28,7 +28,7 @@
 			<mat-tab>
 				<ng-template mat-tab-label>
 					<i class="mat-tab-label-icon fa fa-user"></i>
-					Basic info
+					Temel Bilgiler
 				</ng-template>
 				<ng-template matTabContent>
 					<!--begin::Form-->
@@ -94,7 +94,7 @@
 
 									<div class="col-lg-4 kt-margin-bottom-20-mobile">
 										<mat-form-field class="mat-form-field-fluid">
-											<input matInput placeholder="Enter Phone" formControlName="phone"/>
+											<input matInput placeholder="Telefon No Giriniz" formControlName="phone"/>
 											<mat-hint align="start">Lütfen
 												<strong>Telefon</strong> giriniz
 											</mat-hint>
@@ -107,28 +107,10 @@
 					<!--end::Form-->
 				</ng-template>
 			</mat-tab>
-			<mat-tab [disabled]="!user || !user.id">
-				<ng-template mat-tab-label>
-					<i class="mat-tab-label-icon fa fa-address-book"></i>
-					User address
-				</ng-template>
-				<ng-template matTabContent>
-					<kt-address [(addressSubject)]="addressSubject"></kt-address>
-				</ng-template>
-			</mat-tab>
-			<mat-tab [disabled]="!user || !user.id">
-				<ng-template mat-tab-label>
-					<i class="mat-tab-label-icon fab fa-facebook"></i>
-					Social Nerworks
-				</ng-template>
-				<ng-template matTabContent>
-					<kt-social-networks [(socialNetworksSubject)]="soicialNetworksSubject"></kt-social-networks>
-				</ng-template>
-			</mat-tab>
 			<mat-tab *ngIf="user" [disabled]="!user || !user.id">
 				<ng-template mat-tab-label>
 					<i class="mat-tab-label-icon fa fa-unlock"></i>
-					User roles
+					Kullanıcı Rolleri
 				</ng-template>
 				<ng-template matTabContent>
 					<kt-user-roles-list [(rolesSubject)]="rolesSubject"></kt-user-roles-list>
@@ -137,7 +119,7 @@
 			<mat-tab *ngIf="user" [disabled]="!user || !user.id">
 				<ng-template mat-tab-label>
 					<i class="mat-tab-label-icon fa fa-exchange-alt"></i>
-					Change password
+					Şifreyi Değiştir
 				</ng-template>
 				<ng-template matTabContent>
 					<kt-change-password [userId]="user.id"></kt-change-password>

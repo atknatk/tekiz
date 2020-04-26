@@ -1,22 +1,53 @@
 export class RolesTable {
 	public static roles: any = [
-        {
-            id: 1,
-            title: 'Administrator',
-            isCoreRole: true,
-            permissions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        },
-        {
-            id: 2,
-            title: 'Manager',
-            isCoreRole: false,
-			permissions: [3, 4, 10]
-        },
-        {
-            id: 3,
-            title: 'Guest',
-            isCoreRole: false,
-			permissions: []
-        }
-    ];
+		{
+			id: 1,
+			title: "Admin",
+			isCoreRole: true,
+			permissions: [
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+			],
+		},
+		{
+			id: 2,
+			title: "Sorumlu Başkan",
+			isCoreRole: false,
+			permissions: [17, 20, 22],
+		},
+		{
+			id: 3,
+			title: "Sorumlu Uzman",
+			isCoreRole: false,
+			permissions: [16, 17, 18, 20, 21, 22],
+		},
+	];
 }

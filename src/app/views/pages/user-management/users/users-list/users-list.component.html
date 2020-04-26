@@ -1,9 +1,9 @@
 <kt-portlet>
 	<!-- PORTLET LOADING | Binded to TABLE Datasource -->
 	<!-- See prop => '~/core/_crud/models/data-sources/_base.datasource.ts' (loading$) -->
-	<kt-portlet-header [title]="'Users list'" [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
+	<kt-portlet-header [title]="'Kullanıcı Listesi'" [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
 		<ng-container ktPortletTools>
-			<button [routerLink]="['../users/add']" mat-raised-button color="primary" matTooltip="Create new User">New user</button>
+			<button [routerLink]="['../users/add']" mat-raised-button color="primary" matTooltip="Yeni Kullanıcı Oluştur">Yeni Kullanıcı</button>
 			<!-- Buttons (Material Angular) | See off.documenations 'https://material.angular.io/components/button/overview' -->
 			<!-- mat-raised-button | Rectangular contained button w/ elevation  -->
 		</ng-container>
@@ -19,9 +19,9 @@
 				<div class="row align-items-center">
 					<div class="col-md-2 kt-margin-bottom-10-mobile">
 						<mat-form-field class="mat-form-field-fluid">
-							<input matInput placeholder="Search user" #searchInput placeholder="Search">
-							<mat-hint align="start">
-								<strong>Search</strong> in all fields
+							<input matInput placeholder="Search user" #searchInput placeholder="Ara">
+							<mat-hint align="start">Her hangi bir alanda 
+								<strong>Ara</strong>
 							</mat-hint>
 						</mat-form-field>
 					</div>
@@ -38,16 +38,16 @@
 					<div class="kt-form__group kt-form__group--inline">
 						<div class="kt-form__label kt-form__label-no-wrap">
 							<label class="kt--font-bold kt-font-danger-">
-								<span translate="ECOMMERCE.COMMON.SELECTED_RECORDS_COUNT"></span> {{ selection.selected.length }}
+								<span>Kayıt sayısı</span> {{ selection.selected.length }}
 							</label>
 							<!-- selectedCountsTitle => function from codeBehind (users-list.component.ts file) -->
 							<!-- selectedCountsTitle => just returns title of selected items count -->
 							<!-- for example: Selected records count: 4 -->
 						</div>
 						<div class="kt-form__control kt-form__group--inline">
-							<button (click)="fetchUsers()" mat-raised-button matTooltip="Fetch selected users"  class="mat-button-mt-4">
+							<button (click)="fetchUsers()" mat-raised-button matTooltip="Seçili kullanıcıları Getir"  class="mat-button-mt-4">
 								<mat-icon>clear_all</mat-icon>
-								Fetch Selected
+								Seçilenleri Getir
 							</button>
 						</div>
 					</div>
@@ -92,7 +92,7 @@
 				</ng-container>
 
 				<ng-container matColumnDef="username">
-					<mat-header-cell *matHeaderCellDef mat-sort-header>Username</mat-header-cell>
+					<mat-header-cell *matHeaderCellDef mat-sort-header>T.C. Kimlik No</mat-header-cell>
 					<mat-cell *matCellDef="let user">{{user.username}}</mat-cell>
 				</ng-container>
 
@@ -104,12 +104,12 @@
 				</ng-container>
 
 				<ng-container matColumnDef="fullname">
-					<mat-header-cell *matHeaderCellDef mat-sort-header>Full name</mat-header-cell>
+					<mat-header-cell *matHeaderCellDef mat-sort-header>Ad Soyad</mat-header-cell>
 					<mat-cell *matCellDef="let user">{{user.fullname}}</mat-cell>
 				</ng-container>
 
 				<ng-container matColumnDef="_roles">
-					<mat-header-cell *matHeaderCellDef>Roles</mat-header-cell>
+					<mat-header-cell *matHeaderCellDef>Rol</mat-header-cell>
 					<mat-cell *matCellDef="let user">
 						<span>{{ getUserRolesStr(user) }}</span>
 					</mat-cell>
@@ -118,10 +118,10 @@
 				<ng-container matColumnDef="actions">
 					<mat-header-cell *matHeaderCellDef>İşlem</mat-header-cell>
 					<mat-cell *matCellDef="let user">
-						<button (click)="editUser(user.id)" mat-icon-button color="primary" matTooltip="Edit user">
+						<button (click)="editUser(user.id)" mat-icon-button color="primary" matTooltip="Kullanıcıyı Güncelle">
 							<mat-icon>create</mat-icon>
 						</button>&nbsp;
-						<button mat-icon-button color="warn" matTooltip="Delete user" type="button" (click)="deleteUser(user)">
+						<button mat-icon-button color="warn" matTooltip="Kullanıcıyı Sil" type="button" (click)="deleteUser(user)">
 							<mat-icon>delete</mat-icon>
 						</button>
 					</mat-cell>

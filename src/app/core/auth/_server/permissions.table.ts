@@ -1,58 +1,31 @@
 export class PermissionsTable {
 	public static permissions: any = [
 		{
-			id: 1,
-			name: "accessToECommerceModule",
-			level: 1,
-			title: "eCommerce module",
-		},
-		{
 			id: 2,
 			name: "accessToAuthModule",
 			level: 1,
-			title: "Users Management module",
-		},
-		{
-			id: 4,
-			name: "canReadECommerceData",
-			level: 2,
-			parentId: 1,
-			title: "Read",
-		},
-		{
-			id: 5,
-			name: "canEditECommerceData",
-			level: 2,
-			parentId: 1,
-			title: "Edit",
-		},
-		{
-			id: 6,
-			name: "canDeleteECommerceData",
-			level: 2,
-			parentId: 1,
-			title: "Delete",
+			title: "Kullanıcı Yönetimi Modülü",
 		},
 		{
 			id: 7,
 			name: "canReadAuthData",
 			level: 2,
 			parentId: 2,
-			title: "Read",
+			title: "Okuma",
 		},
 		{
 			id: 8,
 			name: "canEditAuthData",
 			level: 2,
 			parentId: 2,
-			title: "Edit",
+			title: "Ekleme/Güncelleme",
 		},
 		{
 			id: 9,
 			name: "canDeleteAuthData",
 			level: 2,
 			parentId: 2,
-			title: "Delete",
+			title: "Silme",
 		},
 		{
 			id: 13,
@@ -77,7 +50,7 @@ export class PermissionsTable {
 			name: "canEditPlatformKunye",
 			level: 2,
 			parentId: 13,
-			title: "Oluşturma",
+			title: "Ekleme/Güncelleme",
 		},
 		{
 			id: 17,
@@ -91,14 +64,7 @@ export class PermissionsTable {
 			name: "canEditEylemPlaniKunye",
 			level: 2,
 			parentId: 14,
-			title: "Oluşturma",
-		},
-		{
-			id: 19,
-			name: "canCloseEylemPlaniKunye",
-			level: 2,
-			parentId: 14,
-			title: "Kapatma",
+			title: "Ekleme/Güncelleme",
 		},
 		{
 			id: 20,
@@ -108,11 +74,19 @@ export class PermissionsTable {
 			title: "Görüntüleme",
 		},
 		{
+			id: 19,
+			name: "canCloseEylemPlaniKunye",
+			level: 2,
+			parentId: 14,
+			title: "Kapatma",
+		},
+
+		{
 			id: 21,
 			name: "canEditEylemPlaniMadde",
 			level: 2,
 			parentId: 15,
-			title: "Oluşturma",
+			title: "Ekleme/Güncelleme",
 		},
 		{
 			id: 22,

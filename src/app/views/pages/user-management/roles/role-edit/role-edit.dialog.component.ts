@@ -287,11 +287,11 @@ export class RoleEditDialogComponent implements OnInit, OnDestroy {
 	getTitle(): string {
 		if (this.role && this.role.id) {
 			// tslint:disable-next-line:no-string-throw
-			return `Edit role '${this.role.title}'`;
+			return `Rol Güncelle '${this.role.title}'`;
 		}
 
 		// tslint:disable-next-line:no-string-throw
-		return 'New role';
+		return 'Yeni Rol';
 	}
 
 	/**

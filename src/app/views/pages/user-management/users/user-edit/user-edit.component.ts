@@ -108,19 +108,19 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	initUser() {
 		this.createForm();
 		if (!this.user.id) {
-			this.subheaderService.setTitle('Create user');
+			this.subheaderService.setTitle('Kullanıcı Oluştur');
 			this.subheaderService.setBreadcrumbs([
-				{ title: 'User Management', page: `user-management` },
-				{ title: 'Users',  page: `user-management/users` },
-				{ title: 'Create user', page: `user-management/users/add` }
+				{ title: 'Kullanıcı Yönetimi', page: `user-management` },
+				{ title: 'Kullanıcı Listesi',  page: `user-management/users` },
+				{ title: 'Kullanıcı Oluştur', page: `user-management/users/add` }
 			]);
 			return;
 		}
-		this.subheaderService.setTitle('Edit user');
+		this.subheaderService.setTitle('Kullanıcı Güncelle');
 		this.subheaderService.setBreadcrumbs([
-			{ title: 'User Management', page: `user-management` },
-			{ title: 'Users',  page: `user-management/users` },
-			{ title: 'Edit user', page: `user-management/users/edit`, queryParams: { id: this.user.id } }
+			{ title: 'Kullanıcı Yönetimi', page: `user-management` },
+			{ title: 'Kullanıcılar',  page: `user-management/users` },
+			{ title: 'Kullanıcı Güncelle', page: `user-management/users/edit`, queryParams: { id: this.user.id } }
 		]);
 	}
 
@@ -238,7 +238,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	addUser(_user: User, withBack: boolean = false) {
 		this.store.dispatch(new UserOnServerCreated({ user: _user }));
 		const addSubscription = this.store.pipe(select(selectLastCreatedUserId)).subscribe(newId => {
-			const message = `New user successfully has been added.`;
+			const message = `Yeni Kullanıcı başarılı bir şekilde eklendi.`;
 			this.layoutUtilsService.showActionNotification(message, MessageType.Create, 5000, true, true);
 			if (newId) {
 				if (withBack) {
@@ -266,7 +266,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			changes: _user
 		};
 		this.store.dispatch(new UserUpdated( { partialUser: updatedUser, user: _user }));
-		const message = `User successfully has been saved.`;
+		const message = `Kullanıcı başarılı bir şekilde güncellendi.`;
 		this.layoutUtilsService.showActionNotification(message, MessageType.Update, 5000, true, true);
 		if (withBack) {
 			this.goBackWithId();
@@ -279,12 +279,12 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	 * Returns component title
 	 */
 	getComponentTitle() {
-		let result = 'Create user';
+		let result = 'Yeni Kullanıcı Ekle';
 		if (!this.user || !this.user.id) {
 			return result;
 		}
 
-		result = `Edit user - ${this.user.fullname}`;
+		result = `Kullanıcı Güncelle - ${this.user.fullname}`;
 		return result;
 	}
 

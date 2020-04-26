@@ -2,29 +2,18 @@ export class UsersTable {
 	public static users: any = [
 		{
 			id: 1,
-			username: 'admin',
+			username: '1',
 			password: 'demo',
-			email: 'admin@demo.com',
+			email: 'admin@ticaret.gov.tr',
 			accessToken: 'access-token-8f3ae836da744329a6f93bf20594b5cc',
 			refreshToken: 'access-token-f8c137a2c98743f48b643e71161d90aa',
 			roles: [1], // Administrator
 			pic: './assets/media/users/300_25.jpg',
-			fullname: 'Sean',
-			occupation: 'CEO',
-			companyName: 'Keenthemes',
-			phone: '456669067890',
-			address: {
-				addressLine: 'L-12-20 Vertex, Cybersquare',
-				city: 'San Francisco',
-				state: 'California',
-				postCode: '45000'
-			},
-			socialNetworks: {
-				linkedIn: 'https://linkedin.com/admin',
-				facebook: 'https://facebook.com/admin',
-				twitter: 'https://twitter.com/admin',
-				instagram: 'https://instagram.com/admin'
-			}
+			fullname: 'Atakan Atik',
+			occupation: 'Bilgi İşlem Dairesi',
+			companyName: 'T.C Ticaret Bakanlığı',
+			phone: '+90 532 525 0000',
+
 		},
 		{
 			id: 2,
