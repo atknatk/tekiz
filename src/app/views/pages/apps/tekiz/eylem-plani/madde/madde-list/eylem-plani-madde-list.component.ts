@@ -167,7 +167,7 @@ export class EylemPlaniMaddesListComponent implements OnInit, OnDestroy {
 									map((res) => {
 										// if (
 										// 	user.roles.indexOf(2) > -1 &&
-										// 	user.companyName === "T.C Ticaret Bakanlığı"
+										// 	user.companyName === "T.C. Ticaret Bakanlığı"
 										// ) {
 										// 	return res.filter(l => (l.status === 4 || l.status === 6));
 										// }
@@ -212,7 +212,7 @@ export class EylemPlaniMaddesListComponent implements OnInit, OnDestroy {
 
 		if (
 			user.roles.indexOf(2) > -1 &&
-			user.companyName === "T.C Ticaret Bakanlığı"
+			user.companyName === "T.C. Ticaret Bakanlığı"
 		) {
 			queryParams.status = [4, 6];
 		}

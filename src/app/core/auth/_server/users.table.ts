@@ -11,7 +11,7 @@ export class UsersTable {
 			pic: './assets/media/users/default.jpg',
 			fullname: 'Atakan Atik',
 			occupation: 'Bilgi İşlem Dairesi',
-			companyName: 'T.C Ticaret Bakanlığı',
+			companyName: 'T.C. Ticaret Bakanlığı',
 			phone: '+90 532 525 0000',
 
 		},
@@ -26,7 +26,7 @@ export class UsersTable {
 			pic: './assets/media/users/default.jpg',
 			fullname: 'Ahmet Bayram',
 			occupation: 'Bilgi İşlem Dairesi Uzman',
-			companyName: 'T.C Ticaret Bakanlığı',
+			companyName: 'T.C. Ticaret Bakanlığı',
 			phone: '+90 532 525 0000'
         },
         {
@@ -40,7 +40,7 @@ export class UsersTable {
 			pic: './assets/media/users/default.jpg',
 			fullname: 'Sultan Kibritoğlu',
 			occupation: 'Bilgi İşlem / Yazılım Dairesi Başkanı',
-			companyName: 'T.C Ticaret Bakanlığı',
+			companyName: 'T.C. Ticaret Bakanlığı',
 			phone: '+90 532 525 0000'
 		},
 		{
@@ -54,7 +54,7 @@ export class UsersTable {
 			pic: './assets/media/users/default.jpg',
 			fullname: 'GSB Sorumlu Uzman',
 			occupation: 'Spor Hizmetleri Sorumlu Uzmanı',
-			companyName: 'T.C Gençlik ve Spor Bakanlığı',
+			companyName: 'T.C. Gençlik ve Spor Bakanlığı',
 			phone: '+90 532 525 0000'
         },
         {
@@ -68,7 +68,7 @@ export class UsersTable {
 			pic: './assets/media/users/default.jpg',
 			fullname: 'Mehmet Baykan',
 			occupation: 'Spor Hizmetleri Sorumlu Başkanı',
-			companyName: 'T.C Gençlik ve Spor Bakanlığı',
+			companyName: 'T.C. Gençlik ve Spor Bakanlığı',
 			phone: '+90 532 525 0000'
 		}
 	];
