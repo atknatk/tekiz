@@ -16,7 +16,7 @@ export class EylemPlaniMaddeTable {
 			],
 			relatedInstitution: "",
 			ownerInstitution: "",
-			status: 0,
+			status: 4,
 		},
 		{
 			id: 2,
@@ -31,7 +31,7 @@ export class EylemPlaniMaddeTable {
 			localResponsibleInstitution: ["T.C. Ticaret Bakanlığı"],
 			relatedInstitution: "",
 			ownerInstitution: "",
-			status: 0,
+			status: 6,
 		},
 		{
 			id: 3,

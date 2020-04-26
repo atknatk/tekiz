@@ -7,8 +7,8 @@
 		</ng-container>
 
 		<ng-container ktPortletTools>
-			<button (click)="addEylemPlaniMadde()" mat-raised-button matTooltip="Yeni Eylem Planı Maddesi Oluştur" color="primary"
-				type="button">
+			<button (click)="addEylemPlaniMadde()" mat-raised-button matTooltip="Yeni Eylem Planı Maddesi Oluştur"
+				color="primary" type="button">
 				<span>Yeni Eylem Planı Maddesi</span>
 			</button>
 		</ng-container>
@@ -135,45 +135,47 @@
 				<ng-container matColumnDef="status">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
 					<mat-cell *matCellDef="let product">
-						<span class="kt-badge kt-badge--inline kt-badge--pill kt-badge--{{ getItemCssClassByStatus(product.status) }} kt-badge--wide">{{ getItemStatusString(product.status) }}</span>
+						<span
+							class="kt-badge kt-badge--inline kt-badge--pill kt-badge--{{ getItemCssClassByStatus(product.status) }} kt-badge--wide">{{ getItemStatusString(product.status) }}</span>
 					</mat-cell>
 				</ng-container>
 
 				<ng-container matColumnDef="actions">
 					<mat-header-cell *matHeaderCellDef>İşlem</mat-header-cell>
 					<mat-cell *matCellDef="let eylemPlaniMadde">
-						<ng-template ngxPermissionsOnly="canEditEylemPlaniMadde">
+
+
+						<ng-template *ngIf="eylemPlaniMadde.status !=6" ngxPermissionsOnly="canEditEylemPlaniMadde">
 							<button mat-icon-button color="primary" matTooltip="Eylem Planı Maddesini Güncelle"
 								(click)="editEylemPlaniMadde(eylemPlaniMadde)">
 								<mat-icon>create</mat-icon>
 							</button>&nbsp;
 						</ng-template>
 
-						<ng-template ngxPermissionsOnly="canDeleteEylemPlaniMadde">
+						<ng-template *ngIf="eylemPlaniMadde.status !=6" ngxPermissionsOnly="canDeleteEylemPlaniMadde">
 							<button mat-icon-button color="warn" matTooltip="Eylem Planı Maddesini Sil" type="button"
 								(click)="deleteEylemPlaniMadde(eylemPlaniMadde)">
 								<mat-icon>delete</mat-icon>
 							</button>&nbsp;
 						</ng-template>
-						<ng-template ngxPermissionsOnly="canEditEylemPlaniMadde">
-							<button mat-icon-button color="primary" matTooltip="Eylem Planı Maddesini Onaya Gönder" type="button"
-								(click)="deleteEylemPlaniMadde(eylemPlaniMadde)">
+						<ng-template *ngIf="eylemPlaniMadde.status !=6" ngxPermissionsOnly="canEditEylemPlaniMadde">
+							<button mat-icon-button color="primary" matTooltip="Eylem Planı Maddesini Onaya Gönder"
+								type="button" (click)="deleteEylemPlaniMadde(eylemPlaniMadde)">
 								<mat-icon>check</mat-icon>
 							</button>&nbsp;
 						</ng-template>
-						<ng-template ngxPermissionsOnly="canOnayEylemPlaniMadde">
-							<button mat-icon-button color="primary" matTooltip="Eylem Planı Maddesini Onayla" type="button"
-								(click)="deleteEylemPlaniMadde(eylemPlaniMadde)">
+						<ng-template *ngIf="eylemPlaniMadde.status !=6" ngxPermissionsOnly="canOnayEylemPlaniMadde">
+							<button mat-icon-button color="primary" matTooltip="Eylem Planı Maddesini Onayla"
+								type="button" (click)="onayBaskan(eylemPlaniMadde)">
 								<mat-icon>check</mat-icon>
 							</button>&nbsp;
-						</ng-template> 
-						<ng-template ngxPermissionsOnly="canOnayEylemPlaniMadde">
+						</ng-template>
+						<ng-template *ngIf="eylemPlaniMadde.status !=6" ngxPermissionsOnly="canOnayEylemPlaniMadde">
 							<button mat-icon-button color="warn" matTooltip="Eylem Planı Maddesini Reddet" type="button"
 								(click)="deleteEylemPlaniMadde(eylemPlaniMadde)">
 								<mat-icon>close</mat-icon>
 							</button>&nbsp;
-						</ng-template> 
-
+						</ng-template>
 						<!-- <ng-template>
 							<button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Onay">
 								<mat-icon>more_vert</mat-icon>

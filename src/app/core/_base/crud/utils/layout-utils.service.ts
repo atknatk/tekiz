@@ -5,7 +5,9 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { ActionNotificationComponent,
 	DeleteEntityDialogComponent,
 	FetchEntityDialogComponent,
-	UpdateStatusDialogComponent
+	UpdateStatusDialogComponent,
+	RedEntityDialogComponent,
+	OnayEntityDialogComponent
 } from '../../../../views/partials/content/crud';
 
 export enum MessageType {
@@ -72,6 +74,20 @@ export class LayoutUtilsService {
 	 */
 	deleteElement(title: string = '', description: string = '', waitDesciption: string = '') {
 		return this.dialog.open(DeleteEntityDialogComponent, {
+			data: { title, description, waitDesciption },
+			width: '440px'
+		});
+	}
+
+	onayElement(title: string = '', description: string = '', waitDesciption: string = '') {
+		return this.dialog.open(OnayEntityDialogComponent, {
+			data: { title, description, waitDesciption },
+			width: '440px'
+		});
+	}
+
+	redElement(title: string = '', description: string = '', waitDesciption: string = '') {
+		return this.dialog.open(RedEntityDialogComponent, {
 			data: { title, description, waitDesciption },
 			width: '440px'
 		});

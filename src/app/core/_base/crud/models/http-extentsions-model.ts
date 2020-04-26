@@ -1,6 +1,7 @@
 // CRUD
 import { QueryParamsModel } from './query-models/query-params.model';
 import { QueryResultsModel } from './query-models/query-results.model';
+import { isArray } from 'util';
 
 export class HttpExtenstionsModel {
 
@@ -14,7 +15,7 @@ export class HttpExtenstionsModel {
 	 */
 	baseFilter(_entities: any[], _queryParams: QueryParamsModel, _filtrationFields: string[] = []): QueryResultsModel {
 		// Filtration
-		let entitiesResult = this.searchInArray(_entities, _queryParams.filter, _filtrationFields);
+		let entitiesResult = this.searchInArray(_entities, _queryParams, _filtrationFields);
 
 		// Sorting
 		// start
@@ -69,7 +70,8 @@ export class HttpExtenstionsModel {
 	 * @param _queryObj: any
 	 * @param _filtrationFields: string[]
 	 */
-	searchInArray(_incomingArray: any[], _queryObj: any, _filtrationFields: string[] = []): any[] {
+	searchInArray(_incomingArray: any[], _queryParams: QueryParamsModel, _filtrationFields: string[] = []): any[] {
+		const _queryObj= _queryParams.filter;
 		const result: any[] = [];
 		let resultBuffer: any[] = [];
 		const indexes: number[] = [];
@@ -111,14 +113,17 @@ export class HttpExtenstionsModel {
 			}
 		});
 
-		if (!doSearch) {
-			return _incomingArray;
+		if (doSearch) {
+			indexes.forEach(re => {
+				result.push(_incomingArray[re]);
+			});
+		}else{
+			result.push(..._incomingArray)
 		}
 
-		indexes.forEach(re => {
-			result.push(_incomingArray[re]);
-		});
-
+		if(isArray(_queryParams.status) && _queryParams.status.length> 0){
+			return result.filter(l => _queryParams.status.indexOf(l.status) > -1);
+		}
 		return result;
 	}
 }

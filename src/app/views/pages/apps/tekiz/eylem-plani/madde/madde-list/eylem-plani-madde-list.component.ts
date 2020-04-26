@@ -76,6 +76,7 @@ export class EylemPlaniMaddesListComponent implements OnInit, OnDestroy {
 	selection = new SelectionModel<EylemPlaniMaddeModel>(true, []);
 	eylemPlaniMaddesResult: EylemPlaniMaddeModel[] = [];
 	user$: Observable<User>;
+	user: User;
 	// Subscriptions
 	private subscriptions: Subscription[] = [];
 
@@ -102,10 +103,9 @@ export class EylemPlaniMaddesListComponent implements OnInit, OnDestroy {
 	 */
 	ngOnInit() {
 		this.dataSource = new EylemPlaniMaddesDataSource(this.store);
-
 		this.user$ = this.store.pipe(select(currentUser));
 		this.user$.subscribe((user) => {
-			console.log(user);
+			this.user= user;
 			this.permissionsService
 				.hasPermission("canOnayEylemPlaniMadde")
 				.then((res) => {
@@ -178,13 +178,7 @@ export class EylemPlaniMaddesListComponent implements OnInit, OnDestroy {
 									this.eylemPlaniMaddesResult = res;
 								});
 							this.subscriptions.push(entitiesSubscription);
-							// First load
-							of(undefined)
-								.pipe(take(1), delay(1000))
-								.subscribe(() => {
-									// Remove this line, just loading imitation
-									this.loadEylemPlaniMaddesList(user);
-								}); // Remove this line, just loading imitation
+							this.loadEylemPlaniMaddesList(user);
 						});
 				});
 		});
@@ -211,7 +205,7 @@ export class EylemPlaniMaddesListComponent implements OnInit, OnDestroy {
 		);
 
 		if (
-			user.roles.indexOf(2) > -1 &&
+			user && user.roles.indexOf(2) > -1 &&
 			user.companyName === "T.C. Ticaret Bakanlığı"
 		) {
 			queryParams.status = [4, 6];
@@ -237,12 +231,50 @@ export class EylemPlaniMaddesListComponent implements OnInit, OnDestroy {
 		return filter;
 	}
 
-	/** ACTIONS */
-	/**
-	 * Delete eylemPlaniMadde
-	 *
-	 * @param _item: EylemPlaniMaddeModel
-	 */
+	
+	onayBaskan(_item: EylemPlaniMaddeModel) {
+		const _title = "Eylem planı maddesi Onay";
+		const _description =
+		_item.eylemPlan + " - " + _item.eylemNo + 
+		" Eylem Planı Maddesi onaylıyor musunuz?";
+		const _waitDesciption = "Eylem Planı Onaylanıyor";
+		const _updateMessage = "Eylem Planı Onaylandı";
+		const dialogRef = this.layoutUtilsService.onayElement(
+			_title,
+			_description,
+			_waitDesciption
+		);
+	
+		dialogRef.afterClosed().subscribe((res) => {
+			if (!res) {
+				this.selection.clear();
+				return;
+			}
+			let status = 4;
+			if(this.user.companyName.indexOf("Ticaret")> -1){
+				status = 6;
+			}else{
+				status = 3;
+			}
+		
+			this.store.dispatch(
+				new EylemPlaniMaddesStatusUpdated({
+					status,
+					eylemPlaniMaddes: [_item],
+				})
+			);
+
+			this.layoutUtilsService.showActionNotification(
+				_updateMessage,
+				MessageType.Update,
+				10000,
+				true,
+				true
+			);
+			this.selection.clear();
+			this.loadEylemPlaniMaddesList(this.user);
+		});
+	}
 	deleteEylemPlaniMadde(_item: EylemPlaniMaddeModel) {
 		const _title = "Eylem Planı Maddesi Sil";
 		const _description =

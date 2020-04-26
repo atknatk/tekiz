@@ -42,6 +42,8 @@ import {
 	DeleteEntityDialogComponent,
 	FetchEntityDialogComponent,
 	UpdateStatusDialogComponent,
+	OnayEntityDialogComponent,
+	RedEntityDialogComponent,
 } from "../../../partials/content/crud";
 // Components
 import { TekizComponent } from "./tekiz.component";
@@ -208,6 +210,8 @@ const routes: Routes = [
 		ActionNotificationComponent,
 		PlatformKunyeEditDialogComponent,
 		DeleteEntityDialogComponent,
+		OnayEntityDialogComponent,
+		RedEntityDialogComponent,
 		FetchEntityDialogComponent,
 		UpdateStatusDialogComponent,
 		EylemPlaniKunyeEditDialogComponent,

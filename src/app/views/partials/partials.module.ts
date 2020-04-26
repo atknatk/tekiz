@@ -38,6 +38,8 @@ import {
 	DeleteEntityDialogComponent,
 	FetchEntityDialogComponent,
 	UpdateStatusDialogComponent,
+	OnayEntityDialogComponent,
+	RedEntityDialogComponent,
 } from './content/crud';
 // Layout partials
 import {
@@ -82,6 +84,8 @@ import { CountriesComponent } from './content/general/countries/countries.compon
 		NoticeComponent,
 		ActionNotificationComponent,
 		DeleteEntityDialogComponent,
+		OnayEntityDialogComponent,
+		RedEntityDialogComponent,
 		FetchEntityDialogComponent,
 		UpdateStatusDialogComponent,
 		AlertComponent,
@@ -123,6 +127,8 @@ import { CountriesComponent } from './content/general/countries/countries.compon
 		NoticeComponent,
 		ActionNotificationComponent,
 		DeleteEntityDialogComponent,
+		OnayEntityDialogComponent,
+		RedEntityDialogComponent,
 		FetchEntityDialogComponent,
 		UpdateStatusDialogComponent,
 		AlertComponent,

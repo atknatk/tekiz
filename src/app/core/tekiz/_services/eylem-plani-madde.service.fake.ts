@@ -43,10 +43,10 @@ export class EylemPlaniMaddesService {
 		return this.http.get<EylemPlaniMaddeModel[]>(API_CUSTOMERS_URL).pipe(
 			mergeMap(res => {
 				const result = this.httpUtils.baseFilter(res, queryParams, ['status', 'type']);
-				if(queryParams.status.length > 0){
-					result.items = result.items.filter(l => queryParams.status.indexOf(l.status) > -1);
-					result.totalCount = result.items.length;
-				}
+				// if(queryParams.status.length > 0) {
+				// 	result.items = result.items.filter(l => queryParams.status.indexOf(l.status) > -1);
+				// 	result.totalCount = result.items.length;
+				// }
 				return of(result);
 			})
 		);
@@ -64,7 +64,7 @@ export class EylemPlaniMaddesService {
 		const tasks$ = [];
 		each(eylemPlaniMaddes, element => {
 			const _eylemPlaniMadde = Object.assign({}, element);
-		//	_eylemPlaniMadde.status = status;
+			_eylemPlaniMadde.status = status;
 			tasks$.push(this.updateEylemPlaniMadde(_eylemPlaniMadde));
 		});
 		return forkJoin(tasks$);
