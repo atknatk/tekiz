@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 		// redirect back to the returnUrl before login
 		this.route.queryParams.subscribe(params => {
-			this.returnUrl = params.returnUrl || '/';
+			this.returnUrl = params.returnUrl || '/tekiz/platform-kunye';
 		});
 	}
 
