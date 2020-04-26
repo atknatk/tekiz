@@ -242,7 +242,7 @@ export class EylemPlaniMaddeEditDialogComponent implements OnInit, OnDestroy {
 			// }'`;
 		}
 
-		return "Yeni EylemPlani Künye";
+		return "Yeni Eylem Planı Maddesi";
 	}
 
 	/**

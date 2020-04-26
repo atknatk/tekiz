@@ -92,8 +92,8 @@ export const locale = {
 					MESSAGE: 'Selected customers have been deleted'
 				},
 				UPDATE_STATUS: {
-					TITLE: 'Status has been updated for selected customers',
-					MESSAGE: 'Selected customers status have successfully been updated'
+					TITLE: 'Seçili Maddelerin Durumlarını Güncelleme',
+					MESSAGE: 'Seçili Maddelerin Durumlarını Güncellendi'
 				},
 				EDIT: {
 					UPDATE_MESSAGE: 'Customer has been updated',

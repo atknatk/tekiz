@@ -69,7 +69,7 @@ export class LayoutConfig {
 		},
 		subheader: {
 			display: true,
-			layout: "subheader-v1",
+			layout: "subheader-v2",
 			fixed: true,
 			width: "fluid",
 			style: "solid",

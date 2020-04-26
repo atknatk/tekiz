@@ -2,17 +2,17 @@
 <div class="kt-subheader kt-grid__item" [ngClass]="{'kt-container--clear': clear}" [hidden]="subheaderService.disabled$ | async" id="kt_subheader">
 	<div class="kt-container" [ngClass]="{'kt-container--fluid': fluid}">
 		<div class="kt-subheader__main">
-			<h3 *ngIf="title" class="kt-subheader__title">{{title}}</h3>
+			<!-- <h3 *ngIf="title" class="kt-subheader__title">{{title}}</h3>
 			<span class="kt-subheader__separator kt-subheader__separator--v"></span>
-			<span *ngIf="desc" class="kt-subheader__desc">{{desc}}</span>
-			<a href="javascript:;" class="btn btn-label-primary btn-bold btn-icon-h">
+			<span *ngIf="desc" class="kt-subheader__desc">{{desc}}</span> -->
+			<!-- <a href="javascript:;" class="btn btn-label-primary btn-bold btn-icon-h">
 				Add New
-			</a>
+			</a> -->
 		</div>
 		<div class="kt-subheader__toolbar">
 			<div class="kt-subheader__wrapper">
 				<a href="javascript:;" class="btn kt-subheader__btn-primary">
-					Actions &nbsp;
+					İşlemler &nbsp;
 					<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--sm">
 						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 							<rect id="bound" x="0" y="0" width="24" height="24"></rect>
@@ -38,7 +38,7 @@
 					<i class="flaticon2-settings"></i>
 				</a>
 
-				<div ngbDropdown [placement]="'bottom-right'" class="dropdown dropdown-inline" ngbTooltip="Quick actions">
+				<!-- <div ngbDropdown [placement]="'bottom-right'" class="dropdown dropdown-inline" ngbTooltip="Quick actions">
 					<a ngbDropdownToggle href="javascript:;" class="btn btn-icon">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--success kt-svg-icon--md">
 							<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -49,7 +49,6 @@
 						</svg>
 					</a>
 					<div ngbDropdownMenu class="dropdown-menu dropdown-menu-fit dropdown-menu-md">
-						<!--begin::Nav-->
 						<ul class="kt-nav">
 							<li class="kt-nav__head">
 								Export Options:
@@ -89,9 +88,8 @@
 								<a class="btn btn-clean btn-bold btn-sm kt-hidden" href="javascript:;" data-placement="left" ngbTooltip="Click to learn more...">Learn more</a>
 							</li>
 						</ul>
-						<!--end::Nav-->
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>

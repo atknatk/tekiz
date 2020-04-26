@@ -1,85 +1,132 @@
 export class PermissionsTable {
 	public static permissions: any = [
-        {
-            id: 1,
-            name: 'accessToECommerceModule',
-            level: 1,
-            title: 'eCommerce module'
-        },
-        {
-            id: 2,
-            name: 'accessToAuthModule',
-            level: 1,
-            title: 'Users Management module'
-        },
-        {
-            id: 3,
-            name: 'accessToMailModule',
-            level: 1,
-            title: 'Mail module'
-        },
-        {
-            id: 4,
-            name: 'canReadECommerceData',
-            level: 2,
-            parentId: 1,
-            title: 'Read'
-        },
-        {
-            id: 5,
-            name: 'canEditECommerceData',
-            level: 2,
-            parentId: 1,
-            title: 'Edit'
-        },
-        {
-            id: 6,
-            name: 'canDeleteECommerceData',
-            level: 2,
-            parentId: 1,
-            title: 'Delete'
-        },
-        {
-            id: 7,
-            name: 'canReadAuthData',
-            level: 2,
-            parentId: 2,
-            title: 'Read'
-        },
-        {
-            id: 8,
-            name: 'canEditAuthData',
-            level: 2,
-            parentId: 2,
-            title: 'Edit'
-        },
-        {
-            id: 9,
-            name: 'canDeleteAuthData',
-            level: 2,
-            parentId: 2,
-            title: 'Delete'
-        },
-        {
-            id: 10,
-            name: 'canReadMailData',
-            level: 2,
-            parentId: 3,
-            title: 'Read'
-        },
-        {
-            id: 11,
-            name: 'canEditMailData',
-            level: 2,
-            parentId: 3,
-            title: 'Edit'
-        },
-        {
-            id: 12,
-            name: 'canDeleteMailData',
-            level: 2,
-            parentId: 3,
-            title: 'Delete'
-        },
-    ];
+		{
+			id: 1,
+			name: "accessToECommerceModule",
+			level: 1,
+			title: "eCommerce module",
+		},
+		{
+			id: 2,
+			name: "accessToAuthModule",
+			level: 1,
+			title: "Users Management module",
+		},
+		{
+			id: 4,
+			name: "canReadECommerceData",
+			level: 2,
+			parentId: 1,
+			title: "Read",
+		},
+		{
+			id: 5,
+			name: "canEditECommerceData",
+			level: 2,
+			parentId: 1,
+			title: "Edit",
+		},
+		{
+			id: 6,
+			name: "canDeleteECommerceData",
+			level: 2,
+			parentId: 1,
+			title: "Delete",
+		},
+		{
+			id: 7,
+			name: "canReadAuthData",
+			level: 2,
+			parentId: 2,
+			title: "Read",
+		},
+		{
+			id: 8,
+			name: "canEditAuthData",
+			level: 2,
+			parentId: 2,
+			title: "Edit",
+		},
+		{
+			id: 9,
+			name: "canDeleteAuthData",
+			level: 2,
+			parentId: 2,
+			title: "Delete",
+		},
+		{
+			id: 13,
+			name: "accessToPlatformKunyeModule",
+			level: 1,
+			title: "Platform Künyesi Modülü",
+		},
+		{
+			id: 14,
+			name: "accessToEylemPlaniKunyeModule",
+			level: 1,
+			title: "Eylem Planı Künyesi Modülü",
+		},
+		{
+			id: 15,
+			name: "accessToEylemPlaniMaddeModule",
+			level: 1,
+			title: "Eylem Planı Maddeleri Modülü",
+		},
+		{
+			id: 16,
+			name: "canEditPlatformKunye",
+			level: 2,
+			parentId: 13,
+			title: "Oluşturma",
+		},
+		{
+			id: 17,
+			name: "canReadPlatformKunye",
+			level: 2,
+			parentId: 13,
+			title: "Görüntüleme",
+		},
+		{
+			id: 18,
+			name: "canEditEylemPlaniKunye",
+			level: 2,
+			parentId: 14,
+			title: "Oluşturma",
+		},
+		{
+			id: 19,
+			name: "canCloseEylemPlaniKunye",
+			level: 2,
+			parentId: 14,
+			title: "Kapatma",
+		},
+		{
+			id: 20,
+			name: "canReadEylemPlaniKunye",
+			level: 2,
+			parentId: 14,
+			title: "Görüntüleme",
+		},
+		{
+			id: 21,
+			name: "canEditEylemPlaniMadde",
+			level: 2,
+			parentId: 15,
+			title: "Oluşturma",
+		},
+		{
+			id: 22,
+			name: "canReadEylemPlaniMadde",
+			level: 2,
+			parentId: 15,
+			title: "Görüntüleme",
+		},
+		{
+			id: 23,
+			name: "canCloseEylemPlaniMadde",
+			level: 2,
+			parentId: 15,
+			title: "Kapatma",
+		},
+	];
 }
