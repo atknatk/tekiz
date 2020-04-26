@@ -19,6 +19,24 @@
 			<div class="kt-form__filtration">
 				<div class="row align-items-center">
 
+					
+					<!-- <div class="kt-form__control">
+						<mat-form-field>
+							<mat-select [(value)]="filterStatus" (selectionChange)="loadEylemPlaniMaddesList()" class="mat-form-field mat-form-field-fluid">
+								<mat-option value="">Hepsi</mat-option>
+								<mat-option value="0,3">Taslak</mat-option>
+								<mat-option value="6,6">Onaylandı</mat-option>
+								<mat-option value="2,5">Red</mat-option>
+								<mat-option value="1,4">Başkan Onay Bekleniyor</mat-option>
+								
+
+							</mat-select>
+							<mat-hint align="start">
+								<strong>Filter by Status</strong>
+							</mat-hint>
+						</mat-form-field>
+					</div> -->
+
 					<div class="col-md-2 kt-margin-bottom-10-mobile">
 						<mat-form-field class="mat-form-field-fluid">
 							<input matInput placeholder="Maddelerin içinde Ara" #searchInput placeholder="Ara">
@@ -27,6 +45,8 @@
 							</mat-hint>
 						</mat-form-field>
 					</div>
+
+					
 
 				</div>
 			</div>
@@ -66,10 +86,10 @@
 							</button>&nbsp;
 							<!-- Call 'fetch-entity-dialog' from _shared folder -->
 							<button (click)="updateStatusForEylemPlaniMaddes()" mat-raised-button
-								matTooltip="Update status for selected eylemPlaniMaddes" class="mat-button-mt-4">
+								matTooltip="Eylem Planı Maddeleri Güncelle" class="mat-button-mt-4">
 								<mat-icon>update</mat-icon>
 								Statüleri Güncelle
-							</button><!-- Call 'update-stated-dialog' from _shared folder -->
+						</button>
 						</div>
 					</div>
 				</div>
@@ -172,7 +192,7 @@
 						</ng-template>
 						<ng-template *ngIf="eylemPlaniMadde.status !=6" ngxPermissionsOnly="canOnayEylemPlaniMadde">
 							<button mat-icon-button color="warn" matTooltip="Eylem Planı Maddesini Reddet" type="button"
-								(click)="deleteEylemPlaniMadde(eylemPlaniMadde)">
+								(click)="redBaskan(eylemPlaniMadde)">
 								<mat-icon>close</mat-icon>
 							</button>&nbsp;
 						</ng-template>

@@ -6,6 +6,7 @@ import {
 	ViewChild,
 	ChangeDetectionStrategy,
 	OnDestroy,
+	AfterViewInit,
 } from "@angular/core";
 // Material
 import { SelectionModel } from "@angular/cdk/collections";
@@ -56,7 +57,8 @@ import { User, currentUser } from "../../../../../../../core/auth";
 	templateUrl: "./eylem-plani-madde-list.component.html",
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EylemPlaniMaddesListComponent implements OnInit, OnDestroy {
+export class EylemPlaniMaddesListComponent
+	implements OnInit, OnDestroy, AfterViewInit {
 	dataSource: EylemPlaniMaddesDataSource;
 	displayedColumns = [
 		"select",
@@ -98,14 +100,36 @@ export class EylemPlaniMaddesListComponent implements OnInit, OnDestroy {
 		private permissionsService: NgxPermissionsService
 	) {}
 
+	ngAfterViewInit(): void {
+		of(undefined)
+			.pipe(take(1), delay(1100))
+			.subscribe(() => {
+				// Remove this line, just loading imitation
+				this.init();
+			});
+	}
+
 	/**
 	 * On init
 	 */
 	ngOnInit() {
 		this.dataSource = new EylemPlaniMaddesDataSource(this.store);
+	}
+
+	/**
+	 * On Destroy
+	 */
+	ngOnDestroy() {
+		this.subscriptions.forEach((el) => el.unsubscribe());
+		this.dataSource = null;
+	}
+
+	init() {
+		const permissions = this.permissionsService.getPermissions();
+		console.log(permissions);
 		this.user$ = this.store.pipe(select(currentUser));
 		this.user$.subscribe((user) => {
-			this.user= user;
+			this.user = user;
 			this.permissionsService
 				.hasPermission("canOnayEylemPlaniMadde")
 				.then((res) => {
@@ -185,13 +209,6 @@ export class EylemPlaniMaddesListComponent implements OnInit, OnDestroy {
 	}
 
 	/**
-	 * On Destroy
-	 */
-	ngOnDestroy() {
-		this.subscriptions.forEach((el) => el.unsubscribe());
-	}
-
-	/**
 	 * Load EylemPlaniMaddes List from service through data-source
 	 */
 	loadEylemPlaniMaddesList(user: User) {
@@ -204,11 +221,37 @@ export class EylemPlaniMaddesListComponent implements OnInit, OnDestroy {
 			this.paginator.pageSize
 		);
 
+
 		if (
-			user && user.roles.indexOf(2) > -1 &&
+			user &&
+			user.roles.indexOf(2) > -1 &&
 			user.companyName === "T.C. Ticaret Bakanlığı"
 		) {
 			queryParams.status = [4, 6];
+		}
+
+		if (
+			user &&
+			user.roles.indexOf(3) > -1 &&
+			user.companyName === "T.C. Ticaret Bakanlığı"
+		) {
+			queryParams.status = [3, 4, 5, 6];
+		}
+
+		if (
+			user &&
+			user.roles.indexOf(2) > -1 &&
+			user.companyName !== "T.C. Ticaret Bakanlığı"
+		) {
+			queryParams.status = [1, 6];
+		}
+
+		if (
+			user &&
+			user.roles.indexOf(3) > -1 &&
+			user.companyName !== "T.C. Ticaret Bakanlığı"
+		) {
+			queryParams.status = [0, 1, 2, 6];
 		}
 
 		// Call request from server
@@ -224,19 +267,74 @@ export class EylemPlaniMaddesListComponent implements OnInit, OnDestroy {
 	filterConfiguration(user: User): any {
 		const filter: any = {};
 		const searchText: string = this.searchInput.nativeElement.value;
-		// filter.firstName = searchText;
-		// filter.email = searchText;
-		// filter.ipAddress = searchText;
+		// if (this.filterStatus && this.filterStatus.length > 0) {
+		// 	if (
+		// 		user &&
+		// 		user.companyName !== "T.C. Ticaret Bakanlığı"
+		// 	) {
+		// 		filter.status = +(this.filterStatus.split(",")[0]);
+		// 	}else{
+		// 		filter.status = +(this.filterStatus.split(",")[1]);
+		// 	}
+			
+		// }
 
 		return filter;
 	}
 
-	
+	redBaskan(_item: EylemPlaniMaddeModel) {
+		const _title = "Eylem planı maddesi RED";
+		const _description =
+			_item.eylemPlan +
+			" - " +
+			_item.eylemNo +
+			" Eylem Planı Maddesi reddetmeyi musunuz?";
+		const _waitDesciption = "Eylem Planı Reddeliyor";
+		const _updateMessage = "Eylem Planı Reddedildi";
+		const dialogRef = this.layoutUtilsService.redElement(
+			_title,
+			_description,
+			_waitDesciption
+		);
+
+		dialogRef.afterClosed().subscribe((res) => {
+			if (!res) {
+				this.selection.clear();
+				return;
+			}
+			let status = 4;
+			if (this.user.companyName.indexOf("Ticaret") > -1) {
+				status = 5;
+			} else {
+				status = 2;
+			}
+
+			this.store.dispatch(
+				new EylemPlaniMaddesStatusUpdated({
+					status,
+					eylemPlaniMaddes: [_item],
+				})
+			);
+
+			this.layoutUtilsService.showActionNotification(
+				_updateMessage,
+				MessageType.Update,
+				10000,
+				true,
+				true
+			);
+			this.selection.clear();
+			this.loadEylemPlaniMaddesList(this.user);
+		});
+	}
+
 	onayBaskan(_item: EylemPlaniMaddeModel) {
 		const _title = "Eylem planı maddesi Onay";
 		const _description =
-		_item.eylemPlan + " - " + _item.eylemNo + 
-		" Eylem Planı Maddesi onaylıyor musunuz?";
+			_item.eylemPlan +
+			" - " +
+			_item.eylemNo +
+			" Eylem Planı Maddesi onaylıyor musunuz?";
 		const _waitDesciption = "Eylem Planı Onaylanıyor";
 		const _updateMessage = "Eylem Planı Onaylandı";
 		const dialogRef = this.layoutUtilsService.onayElement(
@@ -244,19 +342,19 @@ export class EylemPlaniMaddesListComponent implements OnInit, OnDestroy {
 			_description,
 			_waitDesciption
 		);
-	
+
 		dialogRef.afterClosed().subscribe((res) => {
 			if (!res) {
 				this.selection.clear();
 				return;
 			}
 			let status = 4;
-			if(this.user.companyName.indexOf("Ticaret")> -1){
+			if (this.user.companyName.indexOf("Ticaret") > -1) {
 				status = 6;
-			}else{
+			} else {
 				status = 3;
 			}
-		
+
 			this.store.dispatch(
 				new EylemPlaniMaddesStatusUpdated({
 					status,
@@ -359,13 +457,9 @@ export class EylemPlaniMaddesListComponent implements OnInit, OnDestroy {
 	 */
 	updateStatusForEylemPlaniMaddes() {
 		const _title = "Eylem Planı Durumu Güncelle";
-		const _updateMessage = this.translate.instant(
-			"ECOMMERCE.CUSTOMERS.UPDATE_STATUS.MESSAGE"
-		);
+		const _updateMessage = "Eylem Planı Durumu Güncellendi"
 		const _statuses = [
-			{ value: 0, text: "Suspended" },
-			{ value: 1, text: "Active" },
-			{ value: 2, text: "Pending" },
+			{ value: 6, text: "Onaylandı" }
 		];
 		const _messages = [];
 
@@ -405,6 +499,7 @@ export class EylemPlaniMaddesListComponent implements OnInit, OnDestroy {
 				true
 			);
 			this.selection.clear();
+			this.loadEylemPlaniMaddesList(this.user);
 		});
 	}
 
