@@ -426,6 +426,7 @@ export class MenuConfig {
 					title: 'Kullanıcı Yönetini',
 					root: true,
 					bullet: 'dot',
+					permission: 'accessToAuthModule',
 					icon: 'flaticon2-user-outline-symbol',
 					submenu: [
 						{

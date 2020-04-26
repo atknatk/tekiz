@@ -164,7 +164,13 @@
 					<mat-header-cell *matHeaderCellDef>İşlem</mat-header-cell>
 					<mat-cell *matCellDef="let eylemPlaniMadde">
 
-
+						<ng-template *ngIf="eylemPlaniMadde.status ==0 || eylemPlaniMadde.status ==3" ngxPermissionsOnly="canEditEylemPlaniMadde">
+							<button mat-icon-button color="primary" matTooltip="Eylem Planı Maddesini Onaya Gönder"
+								type="button" (click)="onayBaskana(eylemPlaniMadde)">
+								<mat-icon>check</mat-icon>
+							</button>&nbsp;
+						</ng-template>
+						
 						<ng-template *ngIf="eylemPlaniMadde.status !=6" ngxPermissionsOnly="canEditEylemPlaniMadde">
 							<button mat-icon-button color="primary" matTooltip="Eylem Planı Maddesini Güncelle"
 								(click)="editEylemPlaniMadde(eylemPlaniMadde)">
@@ -178,12 +184,7 @@
 								<mat-icon>delete</mat-icon>
 							</button>&nbsp;
 						</ng-template>
-						<ng-template *ngIf="eylemPlaniMadde.status !=6" ngxPermissionsOnly="canEditEylemPlaniMadde">
-							<button mat-icon-button color="primary" matTooltip="Eylem Planı Maddesini Onaya Gönder"
-								type="button" (click)="deleteEylemPlaniMadde(eylemPlaniMadde)">
-								<mat-icon>check</mat-icon>
-							</button>&nbsp;
-						</ng-template>
+						
 						<ng-template *ngIf="eylemPlaniMadde.status !=6" ngxPermissionsOnly="canOnayEylemPlaniMadde">
 							<button mat-icon-button color="primary" matTooltip="Eylem Planı Maddesini Onayla"
 								type="button" (click)="onayBaskan(eylemPlaniMadde)">

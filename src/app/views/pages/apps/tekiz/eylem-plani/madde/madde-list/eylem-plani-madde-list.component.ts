@@ -328,6 +328,52 @@ export class EylemPlaniMaddesListComponent
 		});
 	}
 
+	onayBaskana(_item: EylemPlaniMaddeModel) {
+		const _title = "Eylem planı maddesi Onay";
+		const _description =
+			_item.eylemPlan +
+			" - " +
+			_item.eylemNo +
+			" Eylem Planı Maddesi onaylıyor musunuz?";
+		const _waitDesciption = "Eylem Planı Onaylanıyor";
+		const _updateMessage = "Eylem Planı Onaylandı";
+		const dialogRef = this.layoutUtilsService.onayElement(
+			_title,
+			_description,
+			_waitDesciption
+		);
+
+		dialogRef.afterClosed().subscribe((res) => {
+			if (!res) {
+				this.selection.clear();
+				return;
+			}
+			let status = 0;
+			if (this.user.companyName.indexOf("Ticaret") > -1) {
+				status = 4;
+			} else {
+				status = 1;
+			}
+
+			this.store.dispatch(
+				new EylemPlaniMaddesStatusUpdated({
+					status,
+					eylemPlaniMaddes: [_item],
+				})
+			);
+
+			this.layoutUtilsService.showActionNotification(
+				_updateMessage,
+				MessageType.Update,
+				10000,
+				true,
+				true
+			);
+			this.selection.clear();
+			this.loadEylemPlaniMaddesList(this.user);
+		});
+	}
+
 	onayBaskan(_item: EylemPlaniMaddeModel) {
 		const _title = "Eylem planı maddesi Onay";
 		const _description =

@@ -49,13 +49,18 @@
 	position: static;
 }
 
-.mat-column-actions {
-	flex: 0 0 90px !important;
-}
+// .mat-column-actions {
+// 	flex: 0 0 90px !important;
+// }
 
 .mat-column-kek {
 	flex: 0 0 180px;
 }
+
+.mat-column-status {
+	flex: 0 0 180px;
+}
+
 
 .mat-column-companyName {
 	flex: 0 0 200px;
