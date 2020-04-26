@@ -96,6 +96,11 @@
 					<mat-cell *matCellDef="let user">{{user.username}}</mat-cell>
 				</ng-container>
 
+				<ng-container matColumnDef="companyName">
+					<mat-header-cell *matHeaderCellDef mat-sort-header>Kurum Adı</mat-header-cell>
+					<mat-cell *matCellDef="let user">{{user.companyName}}</mat-cell>
+				</ng-container>
+
 				<ng-container matColumnDef="email">
 					<mat-header-cell *matHeaderCellDef mat-sort-header class="email-cell">Email</mat-header-cell>
 					<mat-cell *matCellDef="let user" class="email-cell">

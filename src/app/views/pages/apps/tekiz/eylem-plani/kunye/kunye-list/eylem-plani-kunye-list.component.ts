@@ -16,6 +16,7 @@ import { LayoutUtilsService, MessageType, QueryParamsModel } from '../../../../.
 // Components
 import { EylemPlaniKunyeEditDialogComponent } from '../kunye-edit/eylem-plani-kunye-edit.dialog.component';
 import { EylemPlaniKunyesDataSource, EylemPlaniKunyeModel, EylemPlaniKunyesPageRequested, OneEylemPlaniKunyeDeleted, ManyEylemPlaniKunyesDeleted, EylemPlaniKunyesStatusUpdated } from '../../../../../../../core/tekiz';
+import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
 	// tslint:disable-next-line:component-selector
@@ -27,7 +28,7 @@ import { EylemPlaniKunyesDataSource, EylemPlaniKunyeModel, EylemPlaniKunyesPageR
 export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 
 	dataSource: EylemPlaniKunyesDataSource;
-	displayedColumns = ['select', 'kek', 'planName', 'planPeriod', 'signedDate' , 'localSigner', 'foreignSigner', /* 'areaName', 'areaNo', 'responsibleInstitution', 'responsiblePresident'*/ 'actions'];
+	displayedColumns = ['select', 'kek', 'planName', 'planPeriod', 'signedDate' , 'localSigner', 'foreignSigner'];
 	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 	@ViewChild('sort1', {static: true}) sort: MatSort;
 	// Filter fields
@@ -54,7 +55,8 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 		public snackBar: MatSnackBar,
 		private layoutUtilsService: LayoutUtilsService,
 		private translate: TranslateService,
-		private store: Store<AppState>
+		private store: Store<AppState>,
+		private permissionsService: NgxPermissionsService,
 	) { }
 
 
@@ -62,6 +64,14 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 	 * On init
 	 */
 	ngOnInit() {
+
+		this.permissionsService.hasPermission('canOnayEylemPlaniKunye').then(res =>{
+			this.permissionsService.hasPermission('canEditEylemPlaniKunye').then(res2 =>{
+				if(res || res2){
+					this.displayedColumns.push("actions");
+				}
+			})	
+		})
 		// If the user changes the sort order, reset back to the first page.
 		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 		this.subscriptions.push(sortSubscription);

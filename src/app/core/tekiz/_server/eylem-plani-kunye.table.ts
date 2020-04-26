@@ -10,8 +10,8 @@ export class EylemPlaniKunyeTable {
 			foreignSigner: "Sardor Umrzakov",
 			areaName: ["Ticaret", "Milli Para"],
 			areaNo: "1",
-			responsibleInstitution: "Ticaret Bakanlığı",
-			responsiblePresident: "Test",
+			responsibleInstitution: "T.C. Ticaret Bakanlığı",
+			responsiblePresident: "Sultan Kibritoğlu",
 		},
 
 		{
@@ -24,7 +24,7 @@ export class EylemPlaniKunyeTable {
 			foreignSigner: "Kuddus Kujamyarov",
 			areaName: ["Ticaret", "Milli Para"],	
 			areaNo: "68",
-			responsibleInstitution: "Gençlik ve Spor Bakanlığı",
+			responsibleInstitution: "T.C. Gençlik ve Spor Bakanlığı",
 			responsiblePresident: "Mehmet Baykan",
 		},
 
@@ -34,12 +34,12 @@ export class EylemPlaniKunyeTable {
 			planName: "2020-2023 Özbekistan Eylem Planı",
 			planPeriod: "2020/2023",
 			signedDate: "01/04/2020",
-			localSigner: "Fatih Dönmez",
+			localSigner: "Muharrem Kasapoğlu",
 			foreignSigner: "Sardor Umrzakov",
 			areaName: ["Ticaret"],
 			areaNo: "27",
-			responsibleInstitution: "Enerji ve Tabii Kaynaklar Bakanlığı",
-			responsiblePresident: "Test",
+			responsibleInstitution: "T.C. Gençlik ve Spor Bakanlığı",
+			responsiblePresident: "Mehmet Baykan",
 		},
 
 		{
@@ -52,8 +52,8 @@ export class EylemPlaniKunyeTable {
 			foreignSigner: "Sardor Umrzakov",
 			areaName: ["Gümrük", "Milli Para"],
 				areaNo: "9",
-			responsibleInstitution: "Ticaret Bakanlığı",
-			responsiblePresident: "Mustafa Gümüş",
+			responsibleInstitution: "T.C. Ticaret Bakanlığı",
+			responsiblePresident: "Sultan Kibritoğlu",
 		},
 	];
 }

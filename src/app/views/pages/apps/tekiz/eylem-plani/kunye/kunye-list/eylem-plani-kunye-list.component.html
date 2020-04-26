@@ -134,14 +134,14 @@
 				<ng-container matColumnDef="actions">
 					<mat-header-cell *matHeaderCellDef>İşlem</mat-header-cell>
 					<mat-cell *matCellDef="let eylemPlaniKunye">
-						<ng-template ngxPermissionsOnly="canEditECommerceData">
+						<ng-template ngxPermissionsOnly="canEditEylemPlaniKunye">
 							<button mat-icon-button color="primary" matTooltip="Eylem Planı Künyesini Güncelle"
 								(click)="editEylemPlaniKunye(eylemPlaniKunye)">
 								<mat-icon>create</mat-icon>
 							</button>&nbsp;
 						</ng-template>
 
-						<ng-template ngxPermissionsOnly="canDeleteECommerceData">
+						<ng-template ngxPermissionsOnly="canDeleteEylemPlaniKunye">
 							<button mat-icon-button color="warn" matTooltip="Eylem Planı Künyesini Sil" type="button"
 								(click)="deleteEylemPlaniKunye(eylemPlaniKunye)">
 								<mat-icon>delete</mat-icon>

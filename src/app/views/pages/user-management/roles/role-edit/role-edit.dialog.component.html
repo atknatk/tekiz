@@ -13,7 +13,7 @@
                 </div>
 
                 <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
-                    Oh snap! Change a few things up and try submitting again.
+                    Hata! Zorunlu alanları giriniz ve sonra tekrar deneyiniz.
                 </kt-alert>
 
                 <div class="form-group kt-form__group row d-block">
@@ -21,20 +21,20 @@
                         <mat-form-field class="mat-form-field-fluid">
                             <input matInput 
                                 [disabled]="role.isCoreRole"
-                                placeholder="Enter Title"  
+                                placeholder="Rol Adı Giriniz"  
                                 [(ngModel)]="role.title" />
-                            <mat-error>Title is
-                                <strong>required</strong>
+                            <mat-error>Role Adı
+                                <strong>zorunludur</strong>
                             </mat-error>
-                            <mat-hint align="start">Please enter
-                                <strong>Title</strong>
+                            <mat-hint align="start">Litfen
+                                <strong>Rol</strong> adı giriniz
                             </mat-hint>
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="kt-separator kt-separator--dashed"></div>
                 <h6 class="kt-section__heading">
-                    Permissions:
+                    Yetkiler
                 </h6>
                 <div class="form-group kt-form__group row">
                     <div class="col-lg-12 kt-margin-bottom-20-mobile">
@@ -74,10 +74,10 @@
                     <div class="row text-right">
                         <div class="col-lg-12">
                             <button type="button" mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial matTooltip="Değişiklikleri İptal Et">
-                                Cancel
+                                İptal
                             </button>&nbsp;
                             <button type="button" [disabled]="!isTitleValid() || role.isCoreRole" mat-raised-button color="primary" (click)="onSubmit()" [disabled]="viewLoading" matTooltip="Değişiklikleri Kaydet">
-                                Save
+                                Kaydet
                             </button>
                         </div>
                     </div>

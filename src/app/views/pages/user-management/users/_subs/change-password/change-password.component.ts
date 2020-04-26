@@ -130,7 +130,7 @@ export class ChangePasswordComponent implements OnInit {
 
 		this.loadData();
 		this.loadingSubject.next(false);
-		const message = `User password successfully has been changed.`;
+		const message = `Kullanıcı Şifresi başarılı bir şekilde değiştirildi.`;
 		this.layoutUtilsService.showActionNotification(message, MessageType.Update, 5000, true, false);
 		this.reset();
 	}

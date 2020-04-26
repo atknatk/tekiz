@@ -8,7 +8,7 @@ export class UsersTable {
 			accessToken: 'access-token-8f3ae836da744329a6f93bf20594b5cc',
 			refreshToken: 'access-token-f8c137a2c98743f48b643e71161d90aa',
 			roles: [1], // Administrator
-			pic: './assets/media/users/300_25.jpg',
+			pic: './assets/media/users/default.jpg',
 			fullname: 'Atakan Atik',
 			occupation: 'Bilgi İşlem Dairesi',
 			companyName: 'T.C Ticaret Bakanlığı',
@@ -17,58 +17,61 @@ export class UsersTable {
 		},
 		{
 			id: 2,
-			username: 'user',
+			username: '2',
 			password: 'demo',
-			email: 'user@demo.com',
-			accessToken: 'access-token-6829bba69dd3421d8762-991e9e806dbf',
-			refreshToken: 'access-token-f8e4c61a318e4d618b6c199ef96b9e55',
-			roles: [2], // Manager
-			pic: './assets/media/users/100_2.jpg',
-			fullname: 'Megan',
-			occupation: 'Deputy Head of Keenthemes in New York office',
-			companyName: 'Keenthemes',
-			phone: '456669067891',
-			address: {
-				addressLine: '3487  Ingram Road',
-				city: 'Greensboro',
-				state: 'North Carolina',
-				postCode: '27409'
-			},
-			socialNetworks: {
-				linkedIn: 'https://linkedin.com/user',
-				facebook: 'https://facebook.com/user',
-				twitter: 'https://twitter.com/user',
-				instagram: 'https://instagram.com/user'
-			}
+			email: 'a.yapar@ticaret.gov.tr',
+			accessToken: 'access-token-6829bba69dd3421d8762-991e9e806db1',
+			refreshToken: 'access-token-f8e4c61a318e4d618b6c199ef96b9e51',
+			roles: [3], // Manager
+			pic: './assets/media/users/default.jpg',
+			fullname: 'Ahmet Bayram',
+			occupation: 'Bilgi İşlem Dairesi Uzman',
+			companyName: 'T.C Ticaret Bakanlığı',
+			phone: '+90 532 525 0000'
         },
         {
 			id: 3,
-			username: 'guest',
+			username: '3',
 			password: 'demo',
-			email: 'guest@demo.com',
-			accessToken: 'access-token-d2dff7b82f784de584b60964abbe45b9',
-			refreshToken: 'access-token-c999ccfe74aa40d0aa1a64c5e620c1a5',
-			roles: [3], // Guest
+			email: 's.kibritoglu@ticaret.gov.tr',
+			accessToken: 'access-token-6829bba69dd3421d8762-991e9e806db2',
+			refreshToken: 'access-token-f8e4c61a318e4d618b6c199ef96b9e52',
+			roles: [2], // Manager
 			pic: './assets/media/users/default.jpg',
-			fullname: 'Ginobili Maccari',
-			occupation: 'CFO',
-			companyName: 'Keenthemes',
-			phone: '456669067892',
-			address: {
-				addressLine: '1467  Griffin Street',
-				city: 'Phoenix',
-				state: 'Arizona',
-				postCode: '85012'
-			},
-			socialNetworks: {
-				linkedIn: 'https://linkedin.com/guest',
-				facebook: 'https://facebook.com/guest',
-				twitter: 'https://twitter.com/guest',
-				instagram: 'https://instagram.com/guest'
-			}
+			fullname: 'Sultan Kibritoğlu',
+			occupation: 'Bilgi İşlem / Yazılım Dairesi Başkanı',
+			companyName: 'T.C Ticaret Bakanlığı',
+			phone: '+90 532 525 0000'
+		},
+		{
+			id: 4,
+			username: '4',
+			password: 'demo',
+			email: 'uzman@gsb.gov.tr',
+			accessToken: 'access-token-6829bba69dd3421d8762-991e9e806db3',
+			refreshToken: 'access-token-f8e4c61a318e4d618b6c199ef96b9e53',
+			roles: [3], // Manager
+			pic: './assets/media/users/default.jpg',
+			fullname: 'GSB Sorumlu Uzman',
+			occupation: 'Spor Hizmetleri Sorumlu Uzmanı',
+			companyName: 'T.C Gençlik ve Spor Bakanlığı',
+			phone: '+90 532 525 0000'
+        },
+        {
+			id: 5,
+			username: '5',
+			password: 'demo',
+			email: 'm.baykan@gsb.gov.tr',
+			accessToken: 'access-token-6829bba69dd3421d8762-991e9e806db4',
+			refreshToken: 'access-token-f8e4c61a318e4d618b6c199ef96b9e54',
+			roles: [2], // Manager
+			pic: './assets/media/users/default.jpg',
+			fullname: 'Mehmet Baykan',
+			occupation: 'Spor Hizmetleri Sorumlu Başkanı',
+			companyName: 'T.C Gençlik ve Spor Bakanlığı',
+			phone: '+90 532 525 0000'
 		}
 	];
-
 	public static tokens: any = [
 		{
 			id: 1,

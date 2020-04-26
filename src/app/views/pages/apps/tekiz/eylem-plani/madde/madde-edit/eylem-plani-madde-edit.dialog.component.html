@@ -95,7 +95,7 @@
                 <div class="col-lg-4 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
                         <mat-label>Eylem Başlangıç Tarihi</mat-label>
-                        <input matInput [matDatepicker]="picker1" [formControl]="eylemStartDate">
+                        <input matInput [matDatepicker]="picker1" formControlName="eylemStartDate">
                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                         <mat-datepicker #picker1></mat-datepicker>
                         <mat-hint align="start">Lütfen
@@ -106,7 +106,7 @@
                 <div class="col-lg-4 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
                         <mat-label>Eylem Bitiş Tarihi</mat-label>
-                        <input matInput [matDatepicker]="picker2" [formControl]="eylemEndDate">
+                        <input matInput [matDatepicker]="picker2" formControlName="eylemEndDate">
                         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                         <mat-datepicker #picker2></mat-datepicker>
                         <mat-hint align="start">Lütfen
@@ -142,7 +142,7 @@
                                 {{area}}
                                 <mat-icon matChipRemove>cancel</mat-icon>
                             </mat-chip>
-                            <input placeholder="TürkiyeKeenthemesKuruluşları Giriniz" [matChipInputFor]="chipList2"
+                            <input placeholder="Türkiye Kuruluşları Giriniz" [matChipInputFor]="chipList2"
                                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
                                 (matChipInputTokenEnd)="addLocalResponsibleInstitutionField($event)" />
                         </mat-chip-list>

@@ -43,7 +43,7 @@ import { SubheaderService } from '../../../../../core/_base/layout';
 export class UsersListComponent implements OnInit, OnDestroy {
 	// Table fields
 	dataSource: UsersDataSource;
-	displayedColumns = ['select', 'id', 'username', 'email', 'fullname', '_roles', 'actions'];
+	displayedColumns = ['select', 'id', 'companyName', 'username', 'email', 'fullname', '_roles', 'actions'];
 	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 	@ViewChild('sort1', {static: true}) sort: MatSort;
 	// Filter fields

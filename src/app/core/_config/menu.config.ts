@@ -391,14 +391,14 @@ export class MenuConfig {
 		aside: {
 			self: {},
 			items: [
-				{
-					title: 'Dashboard',
-					root: true,
-					icon: 'flaticon2-architecture-and-city',
-					page: '/dashboard',
-					translate: 'MENU.DASHBOARD',
-					bullet: 'dot',
-				},
+				// {
+				// 	title: 'Dashboard',
+				// 	root: true,
+				// 	icon: 'flaticon2-architecture-and-city',
+				// 	page: '/dashboard',
+				// 	translate: 'MENU.DASHBOARD',
+				// 	bullet: 'dot',
+				// },
 				{section: 'TEKİZ SİSTEMİ'},
 				
 				{
@@ -406,7 +406,7 @@ export class MenuConfig {
 					bullet: 'dot',
 					icon: 'flaticon2-list-2',
 					root: true,
-					permission: 'accessToECommerceModule',
+					permission: 'accessToPlatformKunyeModule',
 					submenu: [
 						{
 							title: 'Platform Künye',

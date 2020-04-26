@@ -37,7 +37,7 @@ export class AuthService {
                 }
 
                 const user = find(result, (item: User) => {
-                    return (item.email.toLowerCase() === email.toLowerCase() && item.password === password);
+                    return (item.username.toLowerCase() === email.toLowerCase() && item.password === password);
                 });
 
                 if (!user) {

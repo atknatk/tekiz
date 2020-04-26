@@ -142,19 +142,65 @@
 				<ng-container matColumnDef="actions">
 					<mat-header-cell *matHeaderCellDef>İşlem</mat-header-cell>
 					<mat-cell *matCellDef="let eylemPlaniMadde">
-						<ng-template ngxPermissionsOnly="canEditECommerceData">
+						<ng-template ngxPermissionsOnly="canEditEylemPlaniMadde">
 							<button mat-icon-button color="primary" matTooltip="Eylem Planı Maddesini Güncelle"
 								(click)="editEylemPlaniMadde(eylemPlaniMadde)">
 								<mat-icon>create</mat-icon>
 							</button>&nbsp;
 						</ng-template>
 
-						<ng-template ngxPermissionsOnly="canDeleteECommerceData">
+						<ng-template ngxPermissionsOnly="canDeleteEylemPlaniMadde">
 							<button mat-icon-button color="warn" matTooltip="Eylem Planı Maddesini Sil" type="button"
 								(click)="deleteEylemPlaniMadde(eylemPlaniMadde)">
 								<mat-icon>delete</mat-icon>
 							</button>&nbsp;
 						</ng-template>
+						<ng-template ngxPermissionsOnly="canEditEylemPlaniMadde">
+							<button mat-icon-button color="primary" matTooltip="Eylem Planı Maddesini Onaya Gönder" type="button"
+								(click)="deleteEylemPlaniMadde(eylemPlaniMadde)">
+								<mat-icon>check</mat-icon>
+							</button>&nbsp;
+						</ng-template>
+						<ng-template ngxPermissionsOnly="canOnayEylemPlaniMadde">
+							<button mat-icon-button color="primary" matTooltip="Eylem Planı Maddesini Onayla" type="button"
+								(click)="deleteEylemPlaniMadde(eylemPlaniMadde)">
+								<mat-icon>check</mat-icon>
+							</button>&nbsp;
+						</ng-template> 
+						<ng-template ngxPermissionsOnly="canOnayEylemPlaniMadde">
+							<button mat-icon-button color="warn" matTooltip="Eylem Planı Maddesini Reddet" type="button"
+								(click)="deleteEylemPlaniMadde(eylemPlaniMadde)">
+								<mat-icon>close</mat-icon>
+							</button>&nbsp;
+						</ng-template> 
+
+						<!-- <ng-template>
+							<button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Onay">
+								<mat-icon>more_vert</mat-icon>
+							</button>
+							<mat-menu #menu="matMenu">
+								<button mat-menu-item>
+									<mat-icon>dialpad</mat-icon>
+									<span>Redial</span>
+								</button>
+								<button mat-menu-item>
+									<mat-icon>dialpad</mat-icon>
+									<span>Redial</span>
+								</button>
+								<button mat-menu-item>
+									<mat-icon>dialpad</mat-icon>
+									<span>Redial</span>
+								</button>
+								<button mat-menu-item disabled>
+									<mat-icon>voicemail</mat-icon>
+									<span>Check voicemail</span>
+								</button>
+								<button mat-menu-item>
+									<mat-icon>notifications_off</mat-icon>
+									<span>Disable alerts</span>
+								</button>
+							</mat-menu>
+						</ng-template> -->
 					</mat-cell>
 				</ng-container>
 

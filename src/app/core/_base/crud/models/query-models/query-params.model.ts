@@ -5,6 +5,7 @@ export class QueryParamsModel {
 	sortField: string;
 	pageNumber: number;
 	pageSize: number;
+	status: number[];
 
 	// constructor overrides
 	constructor(_filter: any,

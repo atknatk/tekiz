@@ -60,6 +60,13 @@ export class PermissionsTable {
 			title: "Görüntüleme",
 		},
 		{
+			id: 24,
+			name: "canDeletePlatformKunye",
+			level: 2,
+			parentId: 13,
+			title: "Silme",
+		},
+		{
 			id: 18,
 			name: "canEditEylemPlaniKunye",
 			level: 2,
@@ -74,13 +81,19 @@ export class PermissionsTable {
 			title: "Görüntüleme",
 		},
 		{
-			id: 19,
-			name: "canCloseEylemPlaniKunye",
+			id: 25,
+			name: "canDeleteEylemPlaniKunye",
 			level: 2,
 			parentId: 14,
-			title: "Kapatma",
+			title: "Silme",
 		},
-
+		{
+			id: 19,
+			name: "canOnayEylemPlaniKunye",
+			level: 2,
+			parentId: 14,
+            title: "Red / Onay",
+		},
 		{
 			id: 21,
 			name: "canEditEylemPlaniMadde",
@@ -96,11 +109,18 @@ export class PermissionsTable {
 			title: "Görüntüleme",
 		},
 		{
-			id: 23,
-			name: "canCloseEylemPlaniMadde",
+			id: 26,
+			name: "canDeleteEylemPlaniMadde",
 			level: 2,
 			parentId: 15,
-			title: "Kapatma",
+			title: "Silme",
+		},
+		{
+			id: 23,
+			name: "canOnayEylemPlaniMadde",
+			level: 2,
+			parentId: 15,
+			title: "Red / Onay",
 		},
 	];
 }

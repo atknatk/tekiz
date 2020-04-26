@@ -2,11 +2,11 @@
 	<div class="form-group kt-form__group row" *ngIf="unassignedRoles.length > 0">
 		<div class="col-lg-4 kt-margin-bottom-20-mobile">
 			<mat-form-field class="mat-form-field-fluid">
-				<mat-select placeholder="Role Seçiniz" [(ngModel)]="roleIdForAdding">
+				<mat-select placeholder="Rol Seçiniz" [(ngModel)]="roleIdForAdding">
 					<mat-option *ngFor="let role of unassignedRoles" value="{{ role.id }}">{{role.title}}</mat-option>
 				</mat-select>
 				<mat-hint align="start">
-					<strong>Role Seçiniz</strong>
+					<strong>Rol Seçiniz</strong>
 				</mat-hint>
 			</mat-form-field>
 		</div>
