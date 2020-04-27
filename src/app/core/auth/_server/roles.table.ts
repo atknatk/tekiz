@@ -41,7 +41,7 @@ export class RolesTable {
 			id: 2,
 			title: "Sorumlu Başkan",
 			isCoreRole: false,
-			permissions: [13, 14, 15, 17,19, 20, 22,23],
+			permissions: [13, 14, 15, 17, 19, 20, 22, 23],
 		},
 		{
 			id: 3,

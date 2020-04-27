@@ -5,11 +5,11 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator, MatSort, MatSnackBar, MatDialog } from '@angular/material';
 // RXJS
 import { debounceTime, distinctUntilChanged, tap, skip, delay, take } from 'rxjs/operators';
-import { fromEvent, merge, Subscription, of } from 'rxjs';
+import { fromEvent, merge, Subscription, of, Observable } from 'rxjs';
 // Translate Module
 import { TranslateService } from '@ngx-translate/core';
 // NGRX
-import { Store, ActionsSubject } from '@ngrx/store';
+import { Store, ActionsSubject, select } from '@ngrx/store';
 import { AppState } from '../../../../../../../core/reducers';
 // CRUD
 import { LayoutUtilsService, MessageType, QueryParamsModel } from '../../../../../../../core/_base/crud';
@@ -17,6 +17,7 @@ import { LayoutUtilsService, MessageType, QueryParamsModel } from '../../../../.
 import { EylemPlaniKunyeEditDialogComponent } from '../kunye-edit/eylem-plani-kunye-edit.dialog.component';
 import { EylemPlaniKunyesDataSource, EylemPlaniKunyeModel, EylemPlaniKunyesPageRequested, OneEylemPlaniKunyeDeleted, ManyEylemPlaniKunyesDeleted, EylemPlaniKunyesStatusUpdated } from '../../../../../../../core/tekiz';
 import { NgxPermissionsService } from 'ngx-permissions';
+import { User, currentUser } from '../../../../../../../core/auth';
 
 @Component({
 	// tslint:disable-next-line:component-selector
@@ -40,7 +41,9 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 	eylemPlaniKunyesResult: EylemPlaniKunyeModel[] = [];
 	// Subscriptions
 	private subscriptions: Subscription[] = [];
-
+	user$: Observable<User>;
+	user: User;
+	
 	/**
 	 * Component constructor
 	 *
@@ -64,7 +67,11 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 	 * On init
 	 */
 	ngOnInit() {
+		this.user$ = this.store.pipe(select(currentUser));
 
+		this.user$.subscribe((user) => {
+			this.user = user;
+		});
 		this.permissionsService.hasPermission('canOnayEylemPlaniKunye').then(res =>{
 			this.permissionsService.hasPermission('canEditEylemPlaniKunye').then(res2 =>{
 				if(res || res2){
@@ -120,6 +127,11 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		this.subscriptions.forEach(el => el.unsubscribe());
 	}
+
+	isTicaret(){
+		return this.user && this.user.companyName === "T.C. Ticaret Bakanlığı"
+	}
+
 
 	/**
 	 * Load EylemPlaniKunyes List from service through data-source

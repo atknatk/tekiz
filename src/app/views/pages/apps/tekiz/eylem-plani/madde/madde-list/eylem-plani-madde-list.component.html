@@ -6,7 +6,7 @@
 			</h3>
 		</ng-container>
 
-		<ng-container ktPortletTools>
+		<ng-container *ngIf="isTicaret()" ktPortletTools>
 			<button (click)="addEylemPlaniMadde()" mat-raised-button matTooltip="Yeni Eylem Planı Maddesi Oluştur"
 				color="primary" type="button">
 				<span>Yeni Eylem Planı Maddesi</span>
@@ -171,14 +171,14 @@
 							</button>&nbsp;
 						</ng-template>
 						
-						<ng-template *ngIf="eylemPlaniMadde.status !=6" ngxPermissionsOnly="canEditEylemPlaniMadde">
+						<ng-template *ngIf="eylemPlaniMadde.status !=6 && isTicaret()" ngxPermissionsOnly="canEditEylemPlaniMadde">
 							<button mat-icon-button color="primary" matTooltip="Eylem Planı Maddesini Güncelle"
 								(click)="editEylemPlaniMadde(eylemPlaniMadde)">
 								<mat-icon>create</mat-icon>
 							</button>&nbsp;
 						</ng-template>
 
-						<ng-template *ngIf="eylemPlaniMadde.status !=6" ngxPermissionsOnly="canDeleteEylemPlaniMadde">
+						<ng-template *ngIf="eylemPlaniMadde.status !=6 && isTicaret()" ngxPermissionsOnly="canDeleteEylemPlaniMadde">
 							<button mat-icon-button color="warn" matTooltip="Eylem Planı Maddesini Sil" type="button"
 								(click)="deleteEylemPlaniMadde(eylemPlaniMadde)">
 								<mat-icon>delete</mat-icon>

@@ -48,7 +48,7 @@ import {
 	ManyEylemPlaniMaddesDeleted,
 	EylemPlaniMaddesStatusUpdated,
 } from "../../../../../../../core/tekiz";
-import { NgxPermissionsService } from "ngx-permissions";
+import { NgxPermissionsService, NgxRolesService } from "ngx-permissions";
 import { User, currentUser } from "../../../../../../../core/auth";
 
 @Component({
@@ -97,14 +97,14 @@ export class EylemPlaniMaddesListComponent
 		private layoutUtilsService: LayoutUtilsService,
 		private translate: TranslateService,
 		private store: Store<AppState>,
-		private permissionsService: NgxPermissionsService
+		private permissionsService: NgxPermissionsService,
+		private roleService: NgxRolesService
 	) {}
 
 	ngAfterViewInit(): void {
 		of(undefined)
 			.pipe(take(1), delay(1100))
 			.subscribe(() => {
-				// Remove this line, just loading imitation
 				this.init();
 			});
 	}
@@ -114,6 +114,7 @@ export class EylemPlaniMaddesListComponent
 	 */
 	ngOnInit() {
 		this.dataSource = new EylemPlaniMaddesDataSource(this.store);
+		console.log(this.roleService.getRoles());
 	}
 
 	/**
@@ -208,6 +209,11 @@ export class EylemPlaniMaddesListComponent
 		});
 	}
 
+	isAdmin(){
+
+	}
+
+
 	/**
 	 * Load EylemPlaniMaddes List from service through data-source
 	 */
@@ -260,6 +266,11 @@ export class EylemPlaniMaddesListComponent
 		);
 		this.selection.clear();
 	}
+
+	isTicaret(){
+		return this.user && this.user.companyName === "T.C. Ticaret Bakanlığı"
+	}
+
 
 	/**
 	 * Returns object for filter
@@ -498,6 +509,9 @@ export class EylemPlaniMaddesListComponent
 		this.layoutUtilsService.fetchElements(messages);
 	}
 
+	
+
+
 	/**
 	 * Show UpdateStatuDialog for selected eylemPlaniMaddes
 	 */
@@ -647,15 +661,15 @@ export class EylemPlaniMaddesListComponent
 			case 1:
 				return "Başkan Onay Bekleniyor";
 			case 2:
-				return "Red";
+				return "Eylem Değil";
 			case 3:
-				return "Taslak";
+				return "İzlemede";
 			case 4:
 				return "Başkan Onay Bekleniyor";
 			case 5:
 				return "Red";
 			case 6:
-				return "Onaylandı";
+				return "Tamamlandı";
 		}
 		return "";
 	}

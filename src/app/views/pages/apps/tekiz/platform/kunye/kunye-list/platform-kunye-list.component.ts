@@ -24,11 +24,11 @@ import {
 	delay,
 	take,
 } from "rxjs/operators";
-import { fromEvent, merge, Subscription, of } from "rxjs";
+import { fromEvent, merge, Subscription, of, Observable } from "rxjs";
 // Translate Module
 import { TranslateService } from "@ngx-translate/core";
 // NGRX
-import { Store, ActionsSubject } from "@ngrx/store";
+import { Store, ActionsSubject, select } from "@ngrx/store";
 import { AppState } from "../../../../../../../core/reducers";
 // CRUD
 import {
@@ -47,6 +47,8 @@ import {
 } from "../../../../../../../core/tekiz";
 // Components
 import { PlatformKunyeEditDialogComponent } from "../kunye-edit/platform-kunye-edit.dialog.component";
+import { User, currentUser } from '../../../../../../../core/auth';
+import { NgxPermissionsService } from 'ngx-permissions';
 
 // Table with EDIT item in MODAL
 // ARTICLE for table with sort/filter/paginator
@@ -76,7 +78,8 @@ export class PlatformKunyesListComponent implements OnInit, OnDestroy {
 	platformKunyesResult: PlatformKunyeModel[] = [];
 	// Subscriptions
 	private subscriptions: Subscription[] = [];
-
+	user$: Observable<User>;
+	user: User;
 	/**
 	 * Component constructor
 	 *
@@ -102,6 +105,13 @@ export class PlatformKunyesListComponent implements OnInit, OnDestroy {
 	 * On init
 	 */
 	ngOnInit() {
+
+		this.user$ = this.store.pipe(select(currentUser));
+
+		this.user$.subscribe((user) => {
+			this.user = user;
+		});
+		
 		// If the user changes the sort order, reset back to the first page.
 		const sortSubscription = this.sort.sortChange.subscribe(
 			() => (this.paginator.pageIndex = 0)
@@ -160,6 +170,12 @@ export class PlatformKunyesListComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		this.subscriptions.forEach((el) => el.unsubscribe());
 	}
+
+	
+	isTicaret(){
+		return this.user && this.user.companyName === "T.C. Ticaret Bakanlığı"
+	}
+
 
 	/**
 	 * Load PlatformKunyes List from service through data-source
