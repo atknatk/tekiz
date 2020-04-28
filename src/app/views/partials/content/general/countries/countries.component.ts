@@ -23,6 +23,7 @@ import { Observable } from "rxjs";
 export class CountriesComponent implements ControlValueAccessor, OnInit {
 	@Input() placeholder = "";
 	@Input() hint = "";
+	@Input() search = false;
 	filtered: Observable<string[]>;
 	inputControl = new FormControl("");
 	countries;
@@ -39,6 +40,9 @@ export class CountriesComponent implements ControlValueAccessor, OnInit {
 			startWith(""),
 			map((val) => this.filter(val.toString()))
 		);
+		this.inputControl.valueChanges.subscribe(res =>{
+			this.value = res;
+		} )
 	}
 
 	filter(val: string): string[] {
@@ -52,6 +56,7 @@ export class CountriesComponent implements ControlValueAccessor, OnInit {
 			this.val = val;
 			this.onChange(val);
 			this.onTouch(val);
+			this.inputControl.setValue(val);
 		}
 	}
 
@@ -69,5 +74,12 @@ export class CountriesComponent implements ControlValueAccessor, OnInit {
 	}
 	selectionChanged(event) {
 		this.value = event.value;
+	}
+
+	onBlur($event){
+		// if(this.countries.indexOf(this.inputControl.value) === -1){
+		// 	this.value = null;
+		// 	this.inputControl.patchValue(null);
+		// }
 	}
 }

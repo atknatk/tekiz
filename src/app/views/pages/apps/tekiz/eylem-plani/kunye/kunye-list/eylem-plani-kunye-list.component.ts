@@ -1,49 +1,84 @@
 // Angular
-import { Component, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import {
+	Component,
+	OnInit,
+	ElementRef,
+	ViewChild,
+	ChangeDetectionStrategy,
+	OnDestroy,
+} from "@angular/core";
 // Material
-import { SelectionModel } from '@angular/cdk/collections';
-import { MatPaginator, MatSort, MatSnackBar, MatDialog } from '@angular/material';
+import { SelectionModel } from "@angular/cdk/collections";
+import {
+	MatPaginator,
+	MatSort,
+	MatSnackBar,
+	MatDialog,
+} from "@angular/material";
 // RXJS
-import { debounceTime, distinctUntilChanged, tap, skip, delay, take } from 'rxjs/operators';
-import { fromEvent, merge, Subscription, of, Observable } from 'rxjs';
+import {
+	debounceTime,
+	distinctUntilChanged,
+	tap,
+	skip,
+	delay,
+	take,
+} from "rxjs/operators";
+import { fromEvent, merge, Subscription, of, Observable } from "rxjs";
 // Translate Module
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from "@ngx-translate/core";
 // NGRX
-import { Store, ActionsSubject, select } from '@ngrx/store';
-import { AppState } from '../../../../../../../core/reducers';
+import { Store, ActionsSubject, select } from "@ngrx/store";
+import { AppState } from "../../../../../../../core/reducers";
 // CRUD
-import { LayoutUtilsService, MessageType, QueryParamsModel } from '../../../../../../../core/_base/crud';
+import {
+	LayoutUtilsService,
+	MessageType,
+	QueryParamsModel,
+} from "../../../../../../../core/_base/crud";
 // Components
-import { EylemPlaniKunyeEditDialogComponent } from '../kunye-edit/eylem-plani-kunye-edit.dialog.component';
-import { EylemPlaniKunyesDataSource, EylemPlaniKunyeModel, EylemPlaniKunyesPageRequested, OneEylemPlaniKunyeDeleted, ManyEylemPlaniKunyesDeleted, EylemPlaniKunyesStatusUpdated } from '../../../../../../../core/tekiz';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { User, currentUser } from '../../../../../../../core/auth';
+import { EylemPlaniKunyeEditDialogComponent } from "../kunye-edit/eylem-plani-kunye-edit.dialog.component";
+import {
+	EylemPlaniKunyesDataSource,
+	EylemPlaniKunyeModel,
+	EylemPlaniKunyesPageRequested,
+	OneEylemPlaniKunyeDeleted,
+	ManyEylemPlaniKunyesDeleted,
+	EylemPlaniKunyesStatusUpdated,
+} from "../../../../../../../core/tekiz";
+import { NgxPermissionsService } from "ngx-permissions";
+import { User, currentUser } from "../../../../../../../core/auth";
 
 @Component({
 	// tslint:disable-next-line:component-selector
-	selector: 'kt-eylem-plani-kunye-list',
-	templateUrl: './eylem-plani-kunye-list.component.html',
+	selector: "kt-eylem-plani-kunye-list",
+	templateUrl: "./eylem-plani-kunye-list.component.html",
 	changeDetection: ChangeDetectionStrategy.OnPush,
-
 })
 export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
-
 	dataSource: EylemPlaniKunyesDataSource;
-	displayedColumns = ['select', 'kek', 'planName', 'planPeriod', 'signedDate' , 'localSigner', 'foreignSigner'];
-	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-	@ViewChild('sort1', {static: true}) sort: MatSort;
+	displayedColumns = [
+		"select",
+		"kek",
+		"planName",
+		"planPeriod",
+		"signedDate",
+		"localSigner",
+		"foreignSigner",
+	];
+	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+	@ViewChild("sort1", { static: true }) sort: MatSort;
 	// Filter fields
-	@ViewChild('searchInput', {static: true}) searchInput: ElementRef;
-	filterStatus = '';
-	filterType = '';
+	@ViewChild("searchInput", { static: true }) searchInput: ElementRef;
+	filterStatus = "";
+	filterType = "";
 	// Selection
 	selection = new SelectionModel<EylemPlaniKunyeModel>(true, []);
 	eylemPlaniKunyesResult: EylemPlaniKunyeModel[] = [];
 	// Subscriptions
 	private subscriptions: Subscription[] = [];
-	user$: Observable<User>;
 	user: User;
-	
+
 	/**
 	 * Component constructor
 	 *
@@ -59,79 +94,96 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 		private layoutUtilsService: LayoutUtilsService,
 		private translate: TranslateService,
 		private store: Store<AppState>,
-		private permissionsService: NgxPermissionsService,
-	) { }
+		private permissionsService: NgxPermissionsService
+	) {
+		this.user = JSON.parse(localStorage.getItem("user"));
+	}
 
+	isTicaret() {
+		return this.user && this.user.companyName === "T.C. Ticaret Bakanlığı";
+	}
+
+	isUzman() {
+		return this.user.roles.indexOf(3) > -1;
+	}
+
+	isBaskan() {
+		return this.user.roles.indexOf(2) > -1;
+	}
+
+	isAdmin() {
+		return this.user.roles.indexOf(1) > -1;
+	}
 
 	/**
 	 * On init
 	 */
 	ngOnInit() {
-		this.user$ = this.store.pipe(select(currentUser));
+		if (
+			((this.isUzman() && this.isTicaret()) || this.isAdmin()) &&
+			this.displayedColumns.indexOf("actions") === -1
+		) {
+			this.displayedColumns.push("actions");
+		}
 
-		this.user$.subscribe((user) => {
-			this.user = user;
-		});
-		this.permissionsService.hasPermission('canOnayEylemPlaniKunye').then(res =>{
-			this.permissionsService.hasPermission('canEditEylemPlaniKunye').then(res2 =>{
-				if(res || res2){
-					this.displayedColumns.push("actions");
-				}
-			})	
-		})
 		// If the user changes the sort order, reset back to the first page.
-		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+		const sortSubscription = this.sort.sortChange.subscribe(
+			() => (this.paginator.pageIndex = 0)
+		);
 		this.subscriptions.push(sortSubscription);
 
 		/* Data load will be triggered in two cases:
 		- when a pagination event occurs => this.paginator.page
 		- when a sort event occurs => this.sort.sortChange
 		**/
-		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-			tap(() => this.loadEylemPlaniKunyesList())
+		const paginatorSubscriptions = merge(
+			this.sort.sortChange,
+			this.paginator.page
 		)
-		.subscribe();
+			.pipe(tap(() => this.loadEylemPlaniKunyesList()))
+			.subscribe();
 		this.subscriptions.push(paginatorSubscriptions);
 
 		// Filtration, bind to searchInput
-		const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
-			// tslint:disable-next-line:max-line-length
-			debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
-			distinctUntilChanged(), // This operator will eliminate duplicate values
-			tap(() => {
-				this.paginator.pageIndex = 0;
-				this.loadEylemPlaniKunyesList();
-			})
+		const searchSubscription = fromEvent(
+			this.searchInput.nativeElement,
+			"keyup"
 		)
-		.subscribe();
+			.pipe(
+				// tslint:disable-next-line:max-line-length
+				debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+				distinctUntilChanged(), // This operator will eliminate duplicate values
+				tap(() => {
+					this.paginator.pageIndex = 0;
+					this.loadEylemPlaniKunyesList();
+				})
+			)
+			.subscribe();
 		this.subscriptions.push(searchSubscription);
 
 		// Init DataSource
 		this.dataSource = new EylemPlaniKunyesDataSource(this.store);
-		const entitiesSubscription = this.dataSource.entitySubject.pipe(
-			skip(1),
-			distinctUntilChanged()
-		).subscribe(res => {
-			this.eylemPlaniKunyesResult = res;
-		});
+		const entitiesSubscription = this.dataSource.entitySubject
+			.pipe(skip(1), distinctUntilChanged())
+			.subscribe((res) => {
+				this.eylemPlaniKunyesResult = res;
+			});
 		this.subscriptions.push(entitiesSubscription);
 		// First load
-		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-			this.loadEylemPlaniKunyesList();
-		}); // Remove this line, just loading imitation
+		of(undefined)
+			.pipe(take(1), delay(1000))
+			.subscribe(() => {
+				// Remove this line, just loading imitation
+				this.loadEylemPlaniKunyesList();
+			}); // Remove this line, just loading imitation
 	}
 
 	/**
 	 * On Destroy
 	 */
 	ngOnDestroy() {
-		this.subscriptions.forEach(el => el.unsubscribe());
+		this.subscriptions.forEach((el) => el.unsubscribe());
 	}
-
-	isTicaret(){
-		return this.user && this.user.companyName === "T.C. Ticaret Bakanlığı"
-	}
-
 
 	/**
 	 * Load EylemPlaniKunyes List from service through data-source
@@ -146,7 +198,9 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 			this.paginator.pageSize
 		);
 		// Call request from server
-		this.store.dispatch(new EylemPlaniKunyesPageRequested({ page: queryParams }));
+		this.store.dispatch(
+			new EylemPlaniKunyesPageRequested({ page: queryParams })
+		);
 		this.selection.clear();
 	}
 
@@ -187,14 +241,24 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 		const _description =
 			"Kalıcı olarak Eylem Planı Künyesi silmek için emin misiniz ?";
 		const _waitDesciption = "Eylem Planı Künyesi Siliniyor";
-		const _deleteMessage = "Eylem Planı Künyesi Silindi";		const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
-		dialogRef.afterClosed().subscribe(res => {
+		const _deleteMessage = "Eylem Planı Künyesi Silindi";
+		const dialogRef = this.layoutUtilsService.deleteElement(
+			_title,
+			_description,
+			_waitDesciption
+		);
+		dialogRef.afterClosed().subscribe((res) => {
 			if (!res) {
 				return;
 			}
 
-			this.store.dispatch(new OneEylemPlaniKunyeDeleted({ id: _item.id }));
-			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
+			this.store.dispatch(
+				new OneEylemPlaniKunyeDeleted({ id: _item.id })
+			);
+			this.layoutUtilsService.showActionNotification(
+				_deleteMessage,
+				MessageType.Delete
+			);
 		});
 	}
 
@@ -207,8 +271,12 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 			"Kalıcı olarak Eylem Planı Künyelerini silmek için emin misiniz ?";
 		const _waitDesciption = "Eylem Planı Künyeleri Siliniyor";
 		const _deleteMessage = "Eylem Planı Künyeleri Silindi";
-		const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
-		dialogRef.afterClosed().subscribe(res => {
+		const dialogRef = this.layoutUtilsService.deleteElement(
+			_title,
+			_description,
+			_waitDesciption
+		);
+		dialogRef.afterClosed().subscribe((res) => {
 			if (!res) {
 				return;
 			}
@@ -217,8 +285,13 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 			for (let i = 0; i < this.selection.selected.length; i++) {
 				idsForDeletion.push(this.selection.selected[i].id);
 			}
-			this.store.dispatch(new ManyEylemPlaniKunyesDeleted({ ids: idsForDeletion }));
-			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
+			this.store.dispatch(
+				new ManyEylemPlaniKunyesDeleted({ ids: idsForDeletion })
+			);
+			this.layoutUtilsService.showActionNotification(
+				_deleteMessage,
+				MessageType.Delete
+			);
 			this.selection.clear();
 		});
 	}
@@ -228,7 +301,7 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 	 */
 	fetchEylemPlaniKunyes() {
 		const messages = [];
-		this.selection.selected.forEach(elem => {
+		this.selection.selected.forEach((elem) => {
 			messages.push({
 				text: `${elem.kek}, ${elem.planName}`,
 				id: elem.id.toString(),
@@ -242,12 +315,20 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 	 * Show UpdateStatuDialog for selected eylemPlaniKunyes
 	 */
 	updateStatusForEylemPlaniKunyes() {
-		const _title = this.translate.instant('ECOMMERCE.CUSTOMERS.UPDATE_STATUS.TITLE');
-		const _updateMessage = this.translate.instant('ECOMMERCE.CUSTOMERS.UPDATE_STATUS.MESSAGE');
-		const _statuses = [{ value: 0, text: 'Suspended' }, { value: 1, text: 'Active' }, { value: 2, text: 'Pending' }];
+		const _title = this.translate.instant(
+			"ECOMMERCE.CUSTOMERS.UPDATE_STATUS.TITLE"
+		);
+		const _updateMessage = this.translate.instant(
+			"ECOMMERCE.CUSTOMERS.UPDATE_STATUS.MESSAGE"
+		);
+		const _statuses = [
+			{ value: 0, text: "Suspended" },
+			{ value: 1, text: "Active" },
+			{ value: 2, text: "Pending" },
+		];
 		const _messages = [];
 
-		this.selection.selected.forEach(elem => {
+		this.selection.selected.forEach((elem) => {
 			_messages.push({
 				text: `${elem.kek}, ${elem.planName}`,
 				id: elem.id.toString(),
@@ -257,19 +338,31 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 			});
 		});
 
-		const dialogRef = this.layoutUtilsService.updateStatusForEntities(_title, _statuses, _messages);
-		dialogRef.afterClosed().subscribe(res => {
+		const dialogRef = this.layoutUtilsService.updateStatusForEntities(
+			_title,
+			_statuses,
+			_messages
+		);
+		dialogRef.afterClosed().subscribe((res) => {
 			if (!res) {
 				this.selection.clear();
 				return;
 			}
 
-			this.store.dispatch(new EylemPlaniKunyesStatusUpdated({
-				status: +res,
-				eylemPlaniKunyes: this.selection.selected
-			}));
+			this.store.dispatch(
+				new EylemPlaniKunyesStatusUpdated({
+					status: +res,
+					eylemPlaniKunyes: this.selection.selected,
+				})
+			);
 
-			this.layoutUtilsService.showActionNotification(_updateMessage, MessageType.Update, 10000, true, true);
+			this.layoutUtilsService.showActionNotification(
+				_updateMessage,
+				MessageType.Update,
+				10000,
+				true,
+				true
+			);
 			this.selection.clear();
 		});
 	}
@@ -288,17 +381,21 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 	 * @param eylemPlaniKunye: EylemPlaniKunyeModel
 	 */
 	editEylemPlaniKunye(eylemPlaniKunye: EylemPlaniKunyeModel) {
-		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
-		saveMessageTranslateParam += eylemPlaniKunye.id > 0 ? 'UPDATE_MESSAGE' : 'ADD_MESSAGE';
-		const _saveMessage = this.translate.instant(saveMessageTranslateParam);
-		const _messageType = eylemPlaniKunye.id > 0 ? MessageType.Update : MessageType.Create;
-		const dialogRef = this.dialog.open(EylemPlaniKunyeEditDialogComponent, { data: { eylemPlaniKunye } });
-		dialogRef.afterClosed().subscribe(res => {
+		const _saveMessage = "İşleminiz başarılı bir şekilde gerçekleşti.";
+		const _messageType =
+			eylemPlaniKunye.id > 0 ? MessageType.Update : MessageType.Create;
+		const dialogRef = this.dialog.open(EylemPlaniKunyeEditDialogComponent, {
+			data: { eylemPlaniKunye },
+		});
+		dialogRef.afterClosed().subscribe((res) => {
 			if (!res) {
 				return;
 			}
 
-			this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+			this.layoutUtilsService.showActionNotification(
+				_saveMessage,
+				_messageType
+			);
 			this.loadEylemPlaniKunyesList();
 		});
 	}
@@ -316,10 +413,15 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 	 * Toggle all selections
 	 */
 	masterToggle() {
-		if (this.selection.selected.length === this.eylemPlaniKunyesResult.length) {
+		if (
+			this.selection.selected.length ===
+			this.eylemPlaniKunyesResult.length
+		) {
 			this.selection.clear();
 		} else {
-			this.eylemPlaniKunyesResult.forEach(row => this.selection.select(row));
+			this.eylemPlaniKunyesResult.forEach((row) =>
+				this.selection.select(row)
+			);
 		}
 	}
 
@@ -332,13 +434,13 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 	getItemCssClassByStatus(status: number = 0): string {
 		switch (status) {
 			case 0:
-				return 'danger';
+				return "danger";
 			case 1:
-				return 'success';
+				return "success";
 			case 2:
-				return 'metal';
+				return "metal";
 		}
-		return '';
+		return "";
 	}
 
 	/**
@@ -348,13 +450,13 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 	getItemStatusString(status: number = 0): string {
 		switch (status) {
 			case 0:
-				return 'Suspended';
+				return "Suspended";
 			case 1:
-				return 'Active';
+				return "Active";
 			case 2:
-				return 'Pending';
+				return "Pending";
 		}
-		return '';
+		return "";
 	}
 
 	/**
@@ -364,13 +466,13 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 	getItemCssClassByType(status: number = 0): string {
 		switch (status) {
 			case 0:
-				return 'accent';
+				return "accent";
 			case 1:
-				return 'primary';
+				return "primary";
 			case 2:
-				return '';
+				return "";
 		}
-		return '';
+		return "";
 	}
 
 	/**
@@ -380,10 +482,10 @@ export class EylemPlaniKunyesListComponent implements OnInit, OnDestroy {
 	getItemTypeString(status: number = 0): string {
 		switch (status) {
 			case 0:
-				return 'Business';
+				return "Business";
 			case 1:
-				return 'Individual';
+				return "Individual";
 		}
-		return '';
+		return "";
 	}
 }

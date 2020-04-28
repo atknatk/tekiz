@@ -1,7 +1,7 @@
 
 
 // Angular
-import { Component, OnInit, Inject, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // Material
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -17,6 +17,7 @@ import { AppState } from '../../../../../../../core/reducers';
 import { TypesUtilsService } from '../../../../../../../core/_base/crud';
 // Services and Models
 import { PlatformKunyeModel, PlatformKunyeUpdated, PlatformKunyeOnServerCreated, selectLastCreatedPlatformKunyeId, selectPlatformKunyesPageLoading, selectPlatformKunyesActionLoading } from '../../../../../../../core/tekiz';
+import { MinistriesComponent } from '../../../../../../../views/partials/content/general/ministries/ministries.component';
 
 @Component({
     // tslint:disable-next-line:component-selector
@@ -33,6 +34,7 @@ export class PlatformKunyeEditDialogComponent implements OnInit, OnDestroy {
     viewLoading = false;
     // Private properties
     private componentSubscriptions: Subscription;
+    @ViewChild('ministries', {static: true}) ministries: MinistriesComponent;
 
     /**
      * Component constructor
@@ -76,6 +78,7 @@ export class PlatformKunyeEditDialogComponent implements OnInit, OnDestroy {
         this.platformKunyeForm = this.fb.group({
             name: [this.platformKunye.name, Validators.required],
             owner: [this.platformKunye.owner, Validators.required],
+            country: [this.platformKunye.country, Validators.required],
             summary: [ this.platformKunye.summary ],
         });
     }
@@ -125,6 +128,7 @@ export class PlatformKunyeEditDialogComponent implements OnInit, OnDestroy {
     onSubmit() {
         this.hasFormErrors = false;
         const controls = this.platformKunyeForm.controls;
+        controls.owner.setValue(this.ministries.val);
         /** check form */
         if (this.platformKunyeForm.invalid) {
             Object.keys(controls).forEach(controlName =>
@@ -134,7 +138,7 @@ export class PlatformKunyeEditDialogComponent implements OnInit, OnDestroy {
             this.hasFormErrors = true;
             return;
         }
-
+        
         const editedPlatformKunye = this.preparePlatformKunye();
         if (editedPlatformKunye.id > 0) {
             this.updatePlatformKunye(editedPlatformKunye);

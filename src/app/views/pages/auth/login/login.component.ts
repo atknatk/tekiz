@@ -142,9 +142,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 			.pipe(
 				tap(user => {
 					if (user) {
+						localStorage.setItem("user", JSON.stringify(user));
 						this.store.dispatch(new Login({authToken: user.accessToken}));
-					//	this.router.navigateByUrl(this.returnUrl); // Main page
-					this.router.navigateByUrl("/"); // Main page
+						this.router.navigateByUrl(this.returnUrl); // Main page
+					//this.router.navigateByUrl("/"); // Main page
 					
 					} else {
 						this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');

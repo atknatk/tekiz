@@ -6,7 +6,7 @@
 			</h3>
 		</ng-container>
 
-		<ng-container *ngIf="isTicaret()" ktPortletTools>
+		<ng-container *ngIf="(isUzman() && isTicaret()) || isAdmin()"  ktPortletTools>
 			<button (click)="addEylemPlaniKunye()" mat-raised-button matTooltip="Yeni künye yarat" color="primary"
 				type="button">
 				<span>Yeni Künye</span>

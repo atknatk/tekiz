@@ -142,9 +142,9 @@ export class EylemPlaniKunyeEditDialogComponent implements OnInit, OnDestroy {
 				this.eylemPlaniKunye.foreignSigner,
 				Validators.required,
 			],
-			responsibleInstitution: [
-				this.eylemPlaniKunye.responsibleInstitution,
-			],
+			// responsibleInstitution: [
+			// 	this.eylemPlaniKunye.responsibleInstitution,
+			// ],
 			responsiblePresident: [
 				this.eylemPlaniKunye.responsiblePresident,
 				Validators.required,
@@ -224,8 +224,8 @@ export class EylemPlaniKunyeEditDialogComponent implements OnInit, OnDestroy {
 		_eylemPlaniKunye.localSigner = controls.localSigner.value;
 		_eylemPlaniKunye.foreignSigner = controls.foreignSigner.value;
 		_eylemPlaniKunye.areaName = controls.areaName.value;
-		_eylemPlaniKunye.responsibleInstitution =
-			controls.responsibleInstitution.value;
+		// _eylemPlaniKunye.responsibleInstitution =
+		// 	controls.responsibleInstitution.value;
 		_eylemPlaniKunye.responsiblePresident =
 			controls.responsiblePresident.value;
 		return _eylemPlaniKunye;

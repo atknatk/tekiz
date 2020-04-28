@@ -47,8 +47,8 @@ import {
 } from "../../../../../../../core/tekiz";
 // Components
 import { PlatformKunyeEditDialogComponent } from "../kunye-edit/platform-kunye-edit.dialog.component";
-import { User, currentUser } from '../../../../../../../core/auth';
-import { NgxPermissionsService } from 'ngx-permissions';
+import { User, currentUser } from "../../../../../../../core/auth";
+import { NgxPermissionsService } from "ngx-permissions";
 
 // Table with EDIT item in MODAL
 // ARTICLE for table with sort/filter/paginator
@@ -66,7 +66,7 @@ import { NgxPermissionsService } from 'ngx-permissions';
 export class PlatformKunyesListComponent implements OnInit, OnDestroy {
 	// Table fields
 	dataSource: PlatformKunyesDataSource;
-	displayedColumns = ["select", "id", "country", "name", "owner", "actions"];
+	displayedColumns = ["select", "id", "country", "name", "owner"];
 	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 	@ViewChild("sort1", { static: true }) sort: MatSort;
 	// Filter fields
@@ -78,7 +78,6 @@ export class PlatformKunyesListComponent implements OnInit, OnDestroy {
 	platformKunyesResult: PlatformKunyeModel[] = [];
 	// Subscriptions
 	private subscriptions: Subscription[] = [];
-	user$: Observable<User>;
 	user: User;
 	/**
 	 * Component constructor
@@ -93,25 +92,35 @@ export class PlatformKunyesListComponent implements OnInit, OnDestroy {
 		public dialog: MatDialog,
 		public snackBar: MatSnackBar,
 		private layoutUtilsService: LayoutUtilsService,
-		private translate: TranslateService,
 		private store: Store<AppState>
-	) {}
+	) {
+		this.user = JSON.parse(localStorage.getItem("user"));
+	}
 
-	/**
-	 * @ Lifecycle sequences => https://angular.io/guide/lifecycle-hooks
-	 */
+	isTicaret() {
+		return this.user && this.user.companyName === "T.C. Ticaret Bakanlığı";
+	}
 
-	/**
-	 * On init
-	 */
+	isUzman() {
+		return this.user.roles.indexOf(3) > -1;
+	}
+
+	isBaskan() {
+		return this.user.roles.indexOf(2) > -1;
+	}
+
+	isAdmin() {
+		return this.user.roles.indexOf(1) > -1;
+	}
+
 	ngOnInit() {
+		if (
+			((this.isUzman() && this.isTicaret()) || this.isAdmin()) &&
+			this.displayedColumns.indexOf("actions") === -1
+		) {
+			this.displayedColumns.push("actions");
+		}
 
-		this.user$ = this.store.pipe(select(currentUser));
-
-		this.user$.subscribe((user) => {
-			this.user = user;
-		});
-		
 		// If the user changes the sort order, reset back to the first page.
 		const sortSubscription = this.sort.sortChange.subscribe(
 			() => (this.paginator.pageIndex = 0)
@@ -170,12 +179,6 @@ export class PlatformKunyesListComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		this.subscriptions.forEach((el) => el.unsubscribe());
 	}
-
-	
-	isTicaret(){
-		return this.user && this.user.companyName === "T.C. Ticaret Bakanlığı"
-	}
-
 
 	/**
 	 * Load PlatformKunyes List from service through data-source
@@ -254,7 +257,6 @@ export class PlatformKunyesListComponent implements OnInit, OnDestroy {
 		const _waitDesciption = "Platform Künyeleri Siliniyor";
 		const _deleteMessage = "Platform Künyeleri Silindi";
 
-
 		const dialogRef = this.layoutUtilsService.deleteElement(
 			_title,
 			_description,
@@ -295,7 +297,6 @@ export class PlatformKunyesListComponent implements OnInit, OnDestroy {
 		this.layoutUtilsService.fetchElements(messages);
 	}
 
-	
 	/**
 	 * Show add platformKunye dialog
 	 */
@@ -310,10 +311,7 @@ export class PlatformKunyesListComponent implements OnInit, OnDestroy {
 	 * @param platformKunye: PlatformKunyeModel
 	 */
 	editPlatformKunye(platformKunye: PlatformKunyeModel) {
-		let saveMessageTranslateParam = "ECOMMERCE.CUSTOMERS.EDIT.";
-		saveMessageTranslateParam +=
-			platformKunye.id > 0 ? "UPDATE_MESSAGE" : "ADD_MESSAGE";
-		const _saveMessage = this.translate.instant(saveMessageTranslateParam);
+		const _saveMessage = "İşleminiz başarılı bir şekilde gerçekleşti.";
 		const _messageType =
 			platformKunye.id > 0 ? MessageType.Update : MessageType.Create;
 		const dialogRef = this.dialog.open(PlatformKunyeEditDialogComponent, {

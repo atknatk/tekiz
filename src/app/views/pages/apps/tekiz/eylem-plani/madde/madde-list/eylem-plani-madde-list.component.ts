@@ -50,6 +50,7 @@ import {
 } from "../../../../../../../core/tekiz";
 import { NgxPermissionsService, NgxRolesService } from "ngx-permissions";
 import { User, currentUser } from "../../../../../../../core/auth";
+import { FormControl } from "@angular/forms";
 
 @Component({
 	// tslint:disable-next-line:component-selector
@@ -67,21 +68,23 @@ export class EylemPlaniMaddesListComponent
 		"eylemNo",
 		"eylemName",
 		"status",
+		"actions",
 	];
 	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 	@ViewChild("sort1", { static: true }) sort: MatSort;
 	// Filter fields
 	@ViewChild("searchInput", { static: true }) searchInput: ElementRef;
+	@ViewChild("countryInput", { static: true }) countryInput: ElementRef;
 	filterStatus = "";
 	filterType = "";
 	// Selection
 	selection = new SelectionModel<EylemPlaniMaddeModel>(true, []);
 	eylemPlaniMaddesResult: EylemPlaniMaddeModel[] = [];
-	user$: Observable<User>;
-	user: User;
+
 	// Subscriptions
 	private subscriptions: Subscription[] = [];
-
+	countryControl = new FormControl();
+	user: User;
 	/**
 	 * Component constructor
 	 *
@@ -99,14 +102,15 @@ export class EylemPlaniMaddesListComponent
 		private store: Store<AppState>,
 		private permissionsService: NgxPermissionsService,
 		private roleService: NgxRolesService
-	) {}
+	) {
+		this.user = JSON.parse(localStorage.getItem("user"));
+	}
 
 	ngAfterViewInit(): void {
 		of(undefined)
 			.pipe(take(1), delay(1100))
-			.subscribe(() => {
-				this.init();
-			});
+			.subscribe(() => {});
+		this.init();
 	}
 
 	/**
@@ -126,138 +130,88 @@ export class EylemPlaniMaddesListComponent
 	}
 
 	init() {
-		const permissions = this.permissionsService.getPermissions();
-		console.log(permissions);
-		this.user$ = this.store.pipe(select(currentUser));
-		this.user$.subscribe((user) => {
-			this.user = user;
-			this.permissionsService
-				.hasPermission("canOnayEylemPlaniMadde")
-				.then((res) => {
-					this.permissionsService
-						.hasPermission("canEditEylemPlaniMadde")
-						.then((res2) => {
-							if (res || res2) {
-								if (
-									this.displayedColumns.indexOf("actions") ===
-									-1
-								)
-									this.displayedColumns.push("actions");
-							}
+		// If the user changes the sort order, reset back to the first page.
+		const sortSubscription = this.sort.sortChange.subscribe(
+			() => (this.paginator.pageIndex = 0)
+		);
+		this.subscriptions.push(sortSubscription);
 
-							// If the user changes the sort order, reset back to the first page.
-							const sortSubscription = this.sort.sortChange.subscribe(
-								() => (this.paginator.pageIndex = 0)
-							);
-							this.subscriptions.push(sortSubscription);
-
-							/* Data load will be triggered in two cases:
+		/* Data load will be triggered in two cases:
 		- when a pagination event occurs => this.paginator.page
 		- when a sort event occurs => this.sort.sortChange
 		**/
-							const paginatorSubscriptions = merge(
-								this.sort.sortChange,
-								this.paginator.page
-							)
-								.pipe(
-									tap(() =>
-										this.loadEylemPlaniMaddesList(user)
-									)
-								)
-								.subscribe();
-							this.subscriptions.push(paginatorSubscriptions);
+		const paginatorSubscriptions = merge(
+			this.sort.sortChange,
+			this.paginator.page
+		)
+			.pipe(tap(() => this.loadEylemPlaniMaddesList()))
+			.subscribe();
+		this.subscriptions.push(paginatorSubscriptions);
 
-							// Filtration, bind to searchInput
-							const searchSubscription = fromEvent(
-								this.searchInput.nativeElement,
-								"keyup"
-							)
-								.pipe(
-									// tslint:disable-next-line:max-line-length
-									debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
-									distinctUntilChanged(), // This operator will eliminate duplicate values
-									tap(() => {
-										this.paginator.pageIndex = 0;
-										this.loadEylemPlaniMaddesList(user);
-									})
-								)
-								.subscribe();
-							this.subscriptions.push(searchSubscription);
-
-							// Init DataSource
-
-							const entitiesSubscription = this.dataSource.entitySubject
-								.pipe(skip(1), distinctUntilChanged())
-								.pipe(
-									map((res) => {
-										// if (
-										// 	user.roles.indexOf(2) > -1 &&
-										// 	user.companyName === "T.C. Ticaret Bakanlığı"
-										// ) {
-										// 	return res.filter(l => (l.status === 4 || l.status === 6));
-										// }
-										return res;
-									})
-								)
-								.subscribe((res) => {
-									this.eylemPlaniMaddesResult = res;
-								});
-							this.subscriptions.push(entitiesSubscription);
-							this.loadEylemPlaniMaddesList(user);
-						});
-				});
+		this.countryControl.valueChanges.subscribe(() => {
+			this.paginator.pageIndex = 0;
+			this.loadEylemPlaniMaddesList();
 		});
+		// Filtration, bind to searchInput
+		const searchSubscription = fromEvent(
+			this.searchInput.nativeElement,
+			"keyup"
+		)
+			.pipe(
+				// tslint:disable-next-line:max-line-length
+				debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+				distinctUntilChanged(), // This operator will eliminate duplicate values
+				tap(() => {
+					this.paginator.pageIndex = 0;
+					this.loadEylemPlaniMaddesList();
+				})
+			)
+			.subscribe();
+		this.subscriptions.push(searchSubscription);
+
+		// Init DataSource
+
+		const entitiesSubscription = this.dataSource.entitySubject
+			.pipe(skip(1), distinctUntilChanged())
+			.pipe(
+				map((res) => {
+					// if (
+					// 	user.roles.indexOf(2) > -1 &&
+					// 	user.companyName === "T.C. Ticaret Bakanlığı"
+					// ) {
+					// 	return res.filter(l => (l.status === 4 || l.status === 6));
+					// }
+					return res;
+				})
+			)
+			.subscribe((res) => {
+				this.eylemPlaniMaddesResult = res;
+			});
+		this.subscriptions.push(entitiesSubscription);
+		this.loadEylemPlaniMaddesList();
 	}
-
-	isAdmin(){
-
-	}
-
 
 	/**
 	 * Load EylemPlaniMaddes List from service through data-source
 	 */
-	loadEylemPlaniMaddesList(user: User) {
+	loadEylemPlaniMaddesList() {
 		this.selection.clear();
 		const queryParams = new QueryParamsModel(
-			this.filterConfiguration(user),
+			this.filterConfiguration(),
 			this.sort.direction,
 			this.sort.active,
 			this.paginator.pageIndex,
 			this.paginator.pageSize
 		);
 
-
-		if (
-			user &&
-			user.roles.indexOf(2) > -1 &&
-			user.companyName === "T.C. Ticaret Bakanlığı"
-		) {
-			queryParams.status = [4, 6];
-		}
-
-		if (
-			user &&
-			user.roles.indexOf(3) > -1 &&
-			user.companyName === "T.C. Ticaret Bakanlığı"
-		) {
-			queryParams.status = [3, 4, 5, 6];
-		}
-
-		if (
-			user &&
-			user.roles.indexOf(2) > -1 &&
-			user.companyName !== "T.C. Ticaret Bakanlığı"
-		) {
-			queryParams.status = [1, 6];
-		}
-
-		if (
-			user &&
-			user.roles.indexOf(3) > -1 &&
-			user.companyName !== "T.C. Ticaret Bakanlığı"
-		) {
-			queryParams.status = [0, 1, 2, 6];
+		if (this.isUzman() && this.isTicaret()) {
+			queryParams.status = [0, 1, 2, 3, 4];
+		} else if (this.isBaskan() && this.isTicaret()) {
+			queryParams.status = [1, 2, 4];
+		} else if (this.isUzman() && !this.isTicaret()) {
+			queryParams.status = [2, 4];
+		} else if (this.isBaskan() && !this.isTicaret()) {
+			queryParams.status = [2, 4];
 		}
 
 		// Call request from server
@@ -267,30 +221,49 @@ export class EylemPlaniMaddesListComponent
 		this.selection.clear();
 	}
 
-	isTicaret(){
-		return this.user && this.user.companyName === "T.C. Ticaret Bakanlığı"
+	isTicaret() {
+		return this.user && this.user.companyName === "T.C. Ticaret Bakanlığı";
 	}
 
+	isUzman() {
+		return this.user.roles.indexOf(3) > -1;
+	}
+
+	isBaskan() {
+		return this.user.roles.indexOf(2) > -1;
+	}
+
+	isAdmin() {
+		return this.user.roles.indexOf(1) > -1;
+	}
 
 	/**
 	 * Returns object for filter
 	 */
-	filterConfiguration(user: User): any {
+	filterConfiguration(): any {
 		const filter: any = {};
 		const searchText: string = this.searchInput.nativeElement.value;
-		// if (this.filterStatus && this.filterStatus.length > 0) {
-		// 	if (
-		// 		user &&
-		// 		user.companyName !== "T.C. Ticaret Bakanlığı"
-		// 	) {
-		// 		filter.status = +(this.filterStatus.split(",")[0]);
-		// 	}else{
-		// 		filter.status = +(this.filterStatus.split(",")[1]);
-		// 	}
-			
-		// }
+
+		if (this.countryControl.value) {
+			filter.eylemPlan = this.countryControl.value;
+		} else {
+			filter.eylemPlan = searchText;
+		}
+
+		if(this.isTicaret()){
+			filter.eylemArea = searchText;
+		}else{
+			filter.eylemArea = "Spor";
+		}
+		
+		filter.eylemNo = searchText;
+		filter.eylemName = searchText;
 
 		return filter;
+	}
+
+	canEditOrDelete(_item: EylemPlaniMaddeModel) {
+		return (_item.status == 0 || _item.status == 3) && this.isTicaret()
 	}
 
 	redBaskan(_item: EylemPlaniMaddeModel) {
@@ -313,16 +286,10 @@ export class EylemPlaniMaddesListComponent
 				this.selection.clear();
 				return;
 			}
-			let status = 4;
-			if (this.user.companyName.indexOf("Ticaret") > -1) {
-				status = 5;
-			} else {
-				status = 2;
-			}
-
+			
 			this.store.dispatch(
 				new EylemPlaniMaddesStatusUpdated({
-					status,
+					status: 3,
 					eylemPlaniMaddes: [_item],
 				})
 			);
@@ -335,7 +302,7 @@ export class EylemPlaniMaddesListComponent
 				true
 			);
 			this.selection.clear();
-			this.loadEylemPlaniMaddesList(this.user);
+			this.loadEylemPlaniMaddesList();
 		});
 	}
 
@@ -359,16 +326,9 @@ export class EylemPlaniMaddesListComponent
 				this.selection.clear();
 				return;
 			}
-			let status = 0;
-			if (this.user.companyName.indexOf("Ticaret") > -1) {
-				status = 4;
-			} else {
-				status = 1;
-			}
-
 			this.store.dispatch(
 				new EylemPlaniMaddesStatusUpdated({
-					status,
+					status : 1,
 					eylemPlaniMaddes: [_item],
 				})
 			);
@@ -381,7 +341,7 @@ export class EylemPlaniMaddesListComponent
 				true
 			);
 			this.selection.clear();
-			this.loadEylemPlaniMaddesList(this.user);
+			this.loadEylemPlaniMaddesList();
 		});
 	}
 
@@ -405,16 +365,10 @@ export class EylemPlaniMaddesListComponent
 				this.selection.clear();
 				return;
 			}
-			let status = 4;
-			if (this.user.companyName.indexOf("Ticaret") > -1) {
-				status = 6;
-			} else {
-				status = 3;
-			}
 
 			this.store.dispatch(
 				new EylemPlaniMaddesStatusUpdated({
-					status,
+					status: 2,
 					eylemPlaniMaddes: [_item],
 				})
 			);
@@ -427,7 +381,46 @@ export class EylemPlaniMaddesListComponent
 				true
 			);
 			this.selection.clear();
-			this.loadEylemPlaniMaddesList(this.user);
+			this.loadEylemPlaniMaddesList();
+		});
+	}
+
+	toIzlemede(_item: EylemPlaniMaddeModel) {
+		const _title = "Eylem planı maddesi İzlemede";
+		const _description =
+			_item.eylemPlan +
+			" - " +
+			_item.eylemNo +
+			" Eylem Planı Maddesi İzlemede durmuna alınacaktır. Onaylıyor musunuz?";
+		const _waitDesciption = "Eylem Planı Onaylanıyor";
+		const _updateMessage = "Eylem Planı Onaylandı";
+		const dialogRef = this.layoutUtilsService.onayElement(
+			_title,
+			_description,
+			_waitDesciption
+		);
+
+		dialogRef.afterClosed().subscribe((res) => {
+			if (!res) {
+				this.selection.clear();
+				return;
+			}
+			this.store.dispatch(
+				new EylemPlaniMaddesStatusUpdated({
+					status : 4,
+					eylemPlaniMaddes: [_item],
+				})
+			);
+
+			this.layoutUtilsService.showActionNotification(
+				_updateMessage,
+				MessageType.Update,
+				10000,
+				true,
+				true
+			);
+			this.selection.clear();
+			this.loadEylemPlaniMaddesList();
 		});
 	}
 	deleteEylemPlaniMadde(_item: EylemPlaniMaddeModel) {
@@ -509,18 +502,13 @@ export class EylemPlaniMaddesListComponent
 		this.layoutUtilsService.fetchElements(messages);
 	}
 
-	
-
-
 	/**
 	 * Show UpdateStatuDialog for selected eylemPlaniMaddes
 	 */
 	updateStatusForEylemPlaniMaddes() {
 		const _title = "Eylem Planı Durumu Güncelle";
-		const _updateMessage = "Eylem Planı Durumu Güncellendi"
-		const _statuses = [
-			{ value: 6, text: "Onaylandı" }
-		];
+		const _updateMessage = "Eylem Planı Durumu Güncellendi";
+		const _statuses = [{ value: 6, text: "Onaylandı" }];
 		const _messages = [];
 
 		this.selection.selected.forEach((elem) => {
@@ -559,7 +547,7 @@ export class EylemPlaniMaddesListComponent
 				true
 			);
 			this.selection.clear();
-			this.loadEylemPlaniMaddesList(this.user);
+			this.loadEylemPlaniMaddesList();
 		});
 	}
 
@@ -577,10 +565,7 @@ export class EylemPlaniMaddesListComponent
 	 * @param eylemPlaniMadde: EylemPlaniMaddeModel
 	 */
 	editEylemPlaniMadde(eylemPlaniMadde: EylemPlaniMaddeModel) {
-		let saveMessageTranslateParam = "ECOMMERCE.CUSTOMERS.EDIT.";
-		saveMessageTranslateParam +=
-			eylemPlaniMadde.id > 0 ? "UPDATE_MESSAGE" : "ADD_MESSAGE";
-		const _saveMessage = this.translate.instant(saveMessageTranslateParam);
+		const _saveMessage = "İşleminiz başarılı bir şekilde gerçekleşti.";
 		const _messageType =
 			eylemPlaniMadde.id > 0 ? MessageType.Update : MessageType.Create;
 		const dialogRef = this.dialog.open(EylemPlaniMaddeEditDialogComponent, {
@@ -595,7 +580,7 @@ export class EylemPlaniMaddesListComponent
 				_saveMessage,
 				_messageType
 			);
-			this.loadEylemPlaniMaddesList(null);
+			this.loadEylemPlaniMaddesList();
 		});
 	}
 
@@ -637,15 +622,11 @@ export class EylemPlaniMaddesListComponent
 			case 1:
 				return "metal";
 			case 2:
-				return "danger";
-			case 3:
-				return "basic";
-			case 4:
-				return "metal";
-			case 5:
-				return "danger";
-			case 6:
 				return "success";
+			case 3:
+				return "danger";
+			case 4:
+				return "primary";
 		}
 		return "";
 	}
@@ -661,15 +642,11 @@ export class EylemPlaniMaddesListComponent
 			case 1:
 				return "Başkan Onay Bekleniyor";
 			case 2:
-				return "Eylem Değil";
+				return "Aktif";
 			case 3:
-				return "İzlemede";
+				return "Reddedildi";
 			case 4:
-				return "Başkan Onay Bekleniyor";
-			case 5:
-				return "Red";
-			case 6:
-				return "Tamamlandı";
+				return "İzlemede";
 		}
 		return "";
 	}

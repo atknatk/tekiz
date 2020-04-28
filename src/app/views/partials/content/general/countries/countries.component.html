@@ -1,5 +1,7 @@
 <mat-form-field class="mat-form-field-fluid">
-	<input [formControl]="inputControl" matInput placeholder="Ülke Seçiniz" [matAutocomplete]="manuf">
+	<input [formControl]="inputControl" matInput 
+	[placeholder]="search == true ? 'Ülke' : 'Ülke Seçiniz'" [matAutocomplete]="manuf"
+	(blur)="onBlur($event)" >
 	<mat-autocomplete (selectionChange)="selectionChanged($event)" #manuf="matAutocomplete">
 		<mat-option *ngFor="let country of filtered | async" [value]="country">
 			{{ country }}
@@ -8,7 +10,12 @@
 	<mat-error>
 		<strong>Ülke</strong> zorunlu alandır
 	</mat-error>
-	<mat-hint align="start">Lütfen
+
+	<mat-hint *ngIf="search == false" align="start">Lütfen
 		<strong>Ülke</strong> seçiniz
 	</mat-hint>
+	<mat-hint *ngIf="search == true" align="start">
+		<strong>Ülke</strong> ye göre arama yapınız
+	</mat-hint>
+
 </mat-form-field>
